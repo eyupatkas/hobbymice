@@ -1,0 +1,26 @@
+# build artifacts
+target/
+dist/
+.next/
+node_modules/
+*.class
+*.jar
+
+# runtime state & logs
+*.log
+.backups/
+
+# local tooling state
+.mimosa/
+.v2c/
+.video_agent/
+
+# heavy binary client trees (kaynak degil, dagitim)
+client/
+client-build/
+launcher/
+electron-launcher/dist/
+
+# derived binary
+158.swf.uncompressed
+Transformice/

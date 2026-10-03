@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HobbyMice Launcher</title>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, sans-serif; user-select: none; }
+  #bg { position: fixed; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 0; }
+  /* Butonlar gokyuzu alanina konumlandirildi (arka plan gorseline gore) */
+  #panel { position: absolute; left: 58%; top: 26%; width: 340px;
+    text-align: center; z-index: 2; }
+  .btn { display: block; width: 300px; margin: 10px auto; padding: 16px 0;
+    border: 3px solid #2b1c0e; border-radius: 14px; cursor: pointer;
+    font-weight: 800; font-size: 20px; color: #241503;
+    background: linear-gradient(180deg, #ffd24a, #f09418);
+    box-shadow: 0 6px 18px rgba(0,0,0,.45);
+    text-shadow: 0 1px 0 rgba(255,255,255,.35); }
+  .btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+  .btn.busy { pointer-events: none; filter: grayscale(.4) brightness(.85); }
+  .btn.small { font-size: 14px; padding: 11px 0;
+    background: linear-gradient(180deg, #5a4a8a, #372a5c);
+    color: #f3efc2; border-color: #14101f; }
+  .btn.small:hover { filter: brightness(1.15); }
+  /* Indirme/baslatma ilerleme cubugu */
+  #bar-wrap { width: 300px; height: 16px; margin: 10px auto 0;
+    background: rgba(0,0,0,.55); border: 2px solid rgba(255,255,255,.35);
+    border-radius: 10px; overflow: hidden; display: none; }
+  #bar-wrap.show { display: block; }
+  #bar { height: 100%; width: 0%;
+    background: linear-gradient(90deg, #ffd24a, #f09418);
+    box-shadow: 0 0 10px rgba(255,204,64,.8);
+    transition: width .25s ease; }
+  #bar-label { margin-top: 6px; font-size: 12px; color: #ffd970;
+    text-shadow: 0 1px 3px rgba(0,0,0,.9); display: none; }
+  #bar-label.show { display: block; }
+  #status { margin-top: 14px; font-size: 14px; font-weight: 600;
+    color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.8); min-height: 20px; }
+  #status.online { color: #8ce678; }
+  #status.offline { color: #ff8a7a; }
+  #footer { position: absolute; bottom: 8px; left: 0; width: 100%;
+    text-align: center; color: rgba(255,255,255,.75); font-size: 11px;
+    text-shadow: 0 1px 3px rgba(0,0,0,.8); z-index: 2; }
+</style>
+</head>
+<body>
+<img id="bg" src="bg.png">
+<div id="panel">
+  <div class="btn" id="play">▶  OYNA</div>
+  <div id="bar-wrap"><div id="bar"></div></div>
+  <div id="bar-label"></div>
+  <div class="btn small" id="site">🌐  hobbymice.com.tr</div>
+  <div id="status">Sunucu durumu kontrol ediliyor...</div>
+</div>
+<div id="footer">hobbymice.com.tr &nbsp;&middot;&nbsp; surum 1.889 &nbsp;&middot;&nbsp; <b style="color:#ffd24a">launcher v5</b> &nbsp;&middot;&nbsp; OYNA her zaman en guncel surumu yukler</div>
+<script>
+  const { ipcRenderer } = require("electron");
+
+  const st = document.getElementById("status");
+  const playBtn = document.getElementById("play");
+  const barWrap = document.getElementById("bar-wrap");
+  const bar = document.getElementById("bar");
+  const barLabel = document.getElementById("bar-label");
+
+  ipcRenderer.on("status", (e, text) => {
+    if (text && text.trim()) st.textContent = text;
+  });
+
+  ipcRenderer.on("progress", (e, pct) => {
+    barWrap.classList.add("show");
+    barLabel.classList.add("show");
+    bar.style.width = pct + "%";
+    barLabel.textContent = "Guncel oyun dosyasi yukleniyor: %" + pct;
+    if (pct >= 100) {
+      barLabel.textContent = "Dosya hazir! Oyun baslatiliyor...";
+      setTimeout(() => {
+        barWrap.classList.remove("show");
+        barLabel.classList.remove("show");
+        bar.style.width = "0%";
+      }, 2500);
+    }
+  });
+
+  document.getElementById("play").addEventListener("click", async () => {
+    playBtn.classList.add("busy");
+    st.className = "";
+    try {
+      await ipcRenderer.invoke("play");
+      if (st.textContent.indexOf("acildi") >= 0) {
+        st.className = "online";
+        playBtn.textContent = "OYUN ACIK";
+        setTimeout(() => { playBtn.textContent = "▶  OYNA"; playBtn.classList.remove("busy"); }, 8000);
+      } else {
+        playBtn.classList.remove("busy");
+      }
+    } catch (e) {
+      st.textContent = "Hata: " + e;
+      playBtn.classList.remove("busy");
+    }
+  });
+
+  document.getElementById("site").addEventListener("click", () => {
+    require("electron").shell.openExternal("https://hobbymice.com.tr");
+  });
+
+  async function check() {
+    try {
+      const r = await ipcRenderer.invoke("server-status");
+      if (!st.textContent.includes("indiriliyor") && !st.textContent.includes("baslatiliyor") && !st.textContent.includes("hazirlaniyor")) {
+        if (r === "online") {
+          st.textContent = "●  Sunucu CEVRIMICI — hazirsin!";
+          st.className = "online";
+        } else {
+          st.textContent = "●  Sunucuya ulasilamadi";
+          st.className = "offline";
+        }
+      }
+    } catch (e) { }
+  }
+  check();
+  setInterval(check, 30000);
+</script>
+</body>
+</html>

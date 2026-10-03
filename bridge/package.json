@@ -1,0 +1,12 @@
+{
+  "name": "hobbymice-bridge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ruffle WebSocket-to-TCP bridge for HobbyMice game ports",
+  "main": "server.js",
+  "dependencies": {
+    "mongodb": "^7.7.0",
+    "playwright": "^1.63.0",
+    "ws": "^8.0.0"
+  }
+}
