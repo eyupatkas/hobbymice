@@ -1,0 +1,80 @@
+{
+  "updated": "2026-10-03",
+  "entries": [
+    {
+      "date": "2026-10-03",
+      "title": "🛡️ Bağlantı Dayanıklılığı Güçlendirildi",
+      "tag": "oyun",
+      "items": [
+        "🎮 Lobideyken veya henüz bir odaya girmemişken gönderilen oyun içi sinyaller artık sunucu tarafından zarifçe yoksayılıyor — ani bağlantı kopmalarında yaşanabilecek takılmalar azaldı",
+        "🧩 Emoji, eylem (high-five/sarılma), meep, şaman uçuşu ve buz dönüşümü sinyalleri bu korumaya dahil"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "🎉 Hafta Sonu Etkinlikleri Başladı + Rozetler",
+      "tag": "oyun",
+      "items": [
+        "🎃 Her hafta sonunda (Cuma-Pazar) farklı bir etkinlik: Halloween, Fishing, Ninja ve Hugging dönüşümlü — vanilla odalarda her 3. harita etkinlik haritası!",
+        "📢 Etkinlik başladığında oyun içinde duyuru alacaksın; /event komutuyla durumu her an görebilirsin",
+        "🏅 Şaman rozetleri: first ve kurtarma sayına göre rozetler kazan (10 first, 50 first, 500 kurtarma, 2000 kurtarma) — şaman olduğunda profilinde görünür",
+        "🎖️ Profil sayfanda 9 başarım rozeti: peynir/first/kurtarma hedefleri, günlük giriş serisi ve veterenlik — kazandıkların altın çerçeveyle parlar!"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "Site Artık 4 Dilde — Ana Sayfa Tamamen Çevrildi",
+      "tag": "site",
+      "items": [
+        "🌍 Ana sayfanın tamamı artık Türkçe, İngilizce, Fransızca ve İspanyolca!",
+        "🌐 Sağ üstteki 🌐 menüsünden dilini seç — tüm sayfa anında o dile döner",
+        "🔒 Çeviri altyapısı güçlendirildi: eksik çeviriyle hiçbir güncelleme yayına çıkamaz"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "Günlük Ödül, Yeni Komutlar ve Sıralama",
+      "tag": "oyun",
+      "items": [
+        "🧀 Günlük giriş ödülü: her gün ilk girişinde peynir kazan, üst üste her gün gel — ödülün 15'ten 45'e kadar büyüsün!",
+        "🏆 /top cheese ve /top first: sunucunun en iyi 5 oyuncusu artık oyun içinde madalyalı listede",
+        "📖 /help (veya /yardim): sadece SENİN kullanabildiğin komutlar, kendi dilinde açıklamalarla",
+        "👥 /yetkililer: tüm ekip üyeleri, çevrimiçi/çevrimdışı durumlarıyla",
+        "🌐 /online ve /saat: anlık oyuncu sayısı ve sunucu saati"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "Güvenlik Güncellemesi — Hesapların Daha İyi Korunması",
+      "tag": "güvenlik",
+      "items": [
+        "🔐 Şifreler artık endüstri standardı PBKDF2 algoritmasıyla saklanıyor; mevcut hesaplar ilk girişte otomatik yükseltiliyor",
+        "⏱️ E-posta doğrulama ve 2FA kodları artık 10 dakika geçerli",
+        "🛡️ Sunucu, bozuk/spam paket gönderen bağlantıları otomatik kapatıyor — log ve bağlantı sızıntısı dünü kaldı",
+        "✉️ Yetkili girişlerine 2FA etkin: yeni cihazdan girişte e-posta doğrulama kodu soruluyor"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "Web Sitesi Yenilikleri",
+      "tag": "site",
+      "items": [
+        "📊 Ana sayfada gerçek zamanlı sunucu istatistikleri: şu an oyunda olanlar, kayıtlı fare, toplanan peynir ve harita sayısı",
+        "📰 Bu Güncellemeler sayfası açıldı — artık her yeniliği buradan takip edebileceksin",
+        "🌍 Çoklu dil sistemi güçlendirildi; site içeriği global oyunculara göre şekilleniyor",
+        "💬 Sağ alttaki sohbet penceresi düzeltildi ve netleştirildi: oyun arkadaşlarınla birebir sohbet (canlı destek değildir)"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "Sunucu Sağlığı ve Altyapı",
+      "tag": "altyapı",
+      "items": [
+        "🎲 Harita rotasyonu düzeltildi: aynı harita artık üst üste gelmiyor",
+        "💾 Veritabanı her gece otomatik yedekleniyor (7 günlük arşiv)",
+        "🩺 7/24 otomatik sağlık denetimi: servis düşerse kendisi ayağa kalkıyor",
+        "🔧 Odasız istemci paketlerinden kaynaklanan sunucu hataları kökten çözüldü"
+      ]
+    }
+  ]
+}
