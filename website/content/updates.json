@@ -1,6 +1,82 @@
 {
-  "updated": "2026-10-03",
+  "updated": "2026-10-04",
   "entries": [
+    {
+      "date": "2026-10-04",
+      "title": "🌍 Site Artık Tarihleri de Senin Dilinde Gösteriyor",
+      "tag": "site",
+      "items": [
+        "📅 Ana sayfadaki blog yazılarının tarihleri artık seçtiğin dile göre formatlanıyor (Türkçe, English, Français, Español)",
+        "✨ Örnek: 4 Ekim 2026 → October 4, 2026 → 4 de octubre de 2026"
+      ]
+    },
+    {
+      "date": "2026-10-04",
+      "title": "🛡️ Sunucu Sağlamlaştırma: Bağlantı Koruması Tek Noktada",
+      "tag": "oyun",
+      "items": [
+        "🎮 Odaya girmemiş oyunculardan gelen oyun içi sinyaller artık bağlantı katmanında tek noktadan süzülüyor — hata üretme olasılığı sıfırlandı",
+        "🧩 Bu, dünkü bağlantı dayanıklılığı çalışmasının devamı; oda içi aksiyonların hiçbirine etkisi yok"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "📰 Oyun İçi Yenilikler Penceresi 4 Dilde Yenilendi",
+      "tag": "oyun",
+      "items": [
+        "📰 Yenilikler penceresi artık TR/EN/FR/ES tüm istemcilerde doğru içerik gösteriyor",
+        "🔧 Eski atelier801 duyuruları tamamen kaldırıldı — pencere artık bu sayfadaki son 5 güncellemeyi gösterir",
+        "♻️ Bu sayfa her güncellendiğinde oyun içi pencere de otomatik güncellenir",
+        "⚠️ Görmek için oyunu kapatıp yeniden gir (dil dosyası girişte yüklenir)"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "🍕 Pizzeria Modu + Oyun İçi Menü Yenilendi",
+      "tag": "oyun",
+      "items": [
+        "🍕 Yeni mod #pizzeria deneme sürümünde — timer hatası nedeniyle geçici olarak kapattık, düzeltince geri gelecek",
+        "🍕 Yeni mod #pizzeria: Fare Köyü'ndeki pizzacıda sipariş al, pizza yap, müşterileri mutlu et — tam bir restoran deneyimi!",
+        "📰 Menüdeki YENİLİKLER penceresi artık bu sayfadaki güncellemeleri gösteriyor (eski duyurular gitti)",
+        "🔗 Menüdeki FORUM butonu artık doğru çalışıyor — doğrudan forumumuza götürüyor",
+        "👑 Yöneticilere özel pembe yıldızlı unvan eklendi"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "🎨 Özel Renkli Unvanlar + 3 Yeni Mod",
+      "tag": "oyun",
+      "items": [
+        "🎨 Unvanlar yenilendi: klasik unvanlar artık renkli, 6 YENİ özel unvan eklendi (Peynir Avcısı, First Ustası, Gece Nöbeti, Sadık Fare, Kurucu Kadro, HobbyMice Efsanesi)",
+        "🎯 Nasıl kazanılır: 100 peynir → Peynir Avcısı · 10 first → First Ustası · 3 günlük seri → Gece Nöbeti · 7 günlük seri → Sadık Fare · 30 gün üyelik → Kurucu Kadro · 1.000 peynir → Efsane",
+        "🔫 #cannonup: resmî top modu — cannonlar havada uçuşuyor!",
+        "🏋️ #hardcamp: zorlaştırılmış bootcamp parkurları",
+        "⚡ #powers: özel güçlerle oynanan yeni mod"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "🧟 Resmî Infected & Crowdsurf Geldi + Modül Hatası Düzeltildi",
+      "tag": "oyun",
+      "items": [
+        "🧟 #infected: RESMİ enfeksiyon modu eklendi — ilk şaman dokunduğunu bulaştırır, son hayatta kalan kazanır!",
+        "🏄 #crowdsurf: RESMİ Crowdsurf modu — kalabalık üzerinde sırtında taşın, en uzağa git!",
+        "🔧 Modüllerdeki hızlı harita değişme hatası düzeltildi: tur kazanımı artık 2+ oyuncu gerektirir, tek başına girince tur düzgün akar",
+        "💡 Hatırlatma: modül odaları /room #infected, /room #crowdsurf, /room #vampir, /room #bomba, /room #gravity"
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "title": "🏁 Mod Odaları Gerçek Haritalarla Geldi + 3 Yeni Mini Oyun!",
+      "tag": "oyun",
+      "items": [
+        "🏁 Racing, Survivor, Defilante ve Bootcamp odaları artık GERÇEK mod haritalarıyla oynanıyor (600+ yeni harita eklendi) — artık vanilla değil!",
+        "🧛 Yeni modül #vampir: rastgele bir vampir size bulaşmaya çalışır — son hayatta kalan kazanır",
+        "💣 Yeni modül #bomba: gökyüzünden yağan bombalardan kaç, son kalan kazanır",
+        "🌀 Yeni modül #gravity: yerçekimi sürekli değişir, tavanda yürümeye hazır ol",
+        "🕹️ Modülleri denemek için: /room #vampir veya /room #bomba veya /room #gravity"
+      ]
+    },
     {
       "date": "2026-10-03",
       "title": "🛡️ Bağlantı Dayanıklılığı Güçlendirildi",
