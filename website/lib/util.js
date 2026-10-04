@@ -34,14 +34,24 @@ function fmtDateTime(d, lang) {
   const dt = d instanceof Date ? d : new Date(d);
   return dt.toLocaleString(localeOf(lang), { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
-function timeAgo(d) {
+// göreli zaman metinleri: sayfa dilleri (util'i Node betikleri de kullanır;
+// i18n modülüne bağımlılık yerine yerel harita tutuldu)
+const TIMEAGO = {
+  tr: { now: 'az önce', min: '{n} dk önce', hour: '{n} sa önce', day: '{n} gün önce' },
+  en: { now: 'just now', min: '{n} min ago', hour: '{n} h ago', day: '{n} days ago' },
+  fr: { now: "à l'instant", min: 'il y a {n} min', hour: 'il y a {n} h', day: 'il y a {n} jours' },
+  es: { now: 'ahora mismo', min: 'hace {n} min', hour: 'hace {n} h', day: 'hace {n} días' },
+};
+function timeAgo(d, lang) {
   const dt = d instanceof Date ? d : new Date(d);
   const s = Math.max(1, (Date.now() - dt.getTime()) / 1000);
-  if (s < 60) return 'az önce';
-  if (s < 3600) return Math.floor(s / 60) + ' dk önce';
-  if (s < 86400) return Math.floor(s / 3600) + ' sa önce';
-  if (s < 2592000) return Math.floor(s / 86400) + ' gün önce';
-  return fmtDate(dt);
+  const m = TIMEAGO[String(lang || '').toLowerCase()] || TIMEAGO.tr;
+  const rel = (v, key) => m[key].replace('{n}', v);
+  if (s < 60) return m.now;
+  if (s < 3600) return rel(Math.floor(s / 60), 'min');
+  if (s < 86400) return rel(Math.floor(s / 3600), 'hour');
+  if (s < 2592000) return rel(Math.floor(s / 86400), 'day');
+  return fmtDate(dt, lang);
 }
 function nf(n) { return Number(n || 0).toLocaleString('tr-TR'); }
 

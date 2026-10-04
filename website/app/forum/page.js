@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 import { getDb } from '../../lib/db';
 import { FORUM_CATS, catInfo } from '../../lib/site-data';
 import { timeAgo, nf, excerpt, toInt } from '../../lib/util';
@@ -15,6 +16,7 @@ const PER_PAGE = 12;
 
 export default async function ForumPage({ searchParams }) {
   const sp = await searchParams;
+  const lang = ((await cookies()).get('hm_lang')?.value || 'tr').toLowerCase();
   const page = Math.max(1, toInt(sp.sayfa, 1));
   const cat = FORUM_CATS.includes(sp.kategori) ? sp.kategori : null;
   const d = getDb();
@@ -90,7 +92,7 @@ export default async function ForumPage({ searchParams }) {
                 <Link href={`/forum/konu/${t._id}-${t.slug}`}>{t.title}</Link>
               </h3>
               <div className="meta">
-                {catInfo(t.category).emoji} {t.category || 'Genel Sohbet'} · {t.author} · {timeAgo(t.lastActivity || t.createdAt)}
+                {catInfo(t.category).emoji} {t.category || 'Genel Sohbet'} · {t.author} · {timeAgo(t.lastActivity || t.createdAt, lang)}
                 {' '}· 👁 {nf(t.views)} · 💬 {nf(t.replies)}
               </div>
               <p>{excerpt(t.body, 180)}</p>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { cookies } from 'next/headers';
 import { ObjectId } from 'mongodb';
 import { getDb } from '../../../../lib/db';
 import { getUser } from '../../../../lib/session';
@@ -26,6 +27,7 @@ export async function generateMetadata({ params }) {
 
 export default async function KonuPage({ params }) {
   const { idslug } = await params;
+  const lang = ((await cookies()).get('hm_lang')?.value || 'tr').toLowerCase();
   const idStr = parseId(idslug);
   const t = idStr ? await getDb().collection('forum_topics').findOne({ _id: safeOid(idStr) }) : null;
   if (!t || t.status === 'deleted') notFound();
@@ -81,7 +83,7 @@ export default async function KonuPage({ params }) {
         const canEdit = mod || isOwnerOf(user, p);
         return (
           <div className="msg" key={String(p._id)}>
-            <div className="who"><b>{p.author}</b><span>{timeAgo(p.createdAt)}</span></div>
+            <div className="who"><b>{p.author}</b><span>{timeAgo(p.createdAt, lang)}</span></div>
             <div className="body" dangerouslySetInnerHTML={{ __html: liteMarkup(p.body) }} />
             {canEdit && (
               <div className="acts">

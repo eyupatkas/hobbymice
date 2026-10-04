@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 import { getDb } from '../../lib/db';
 import { fmtDateTime, nf, timeAgo } from '../../lib/util';
 
@@ -14,6 +15,7 @@ export async function generateMetadata({ searchParams }) {
 }
 
 export default async function OyuncuPage({ searchParams }) {
+  const lang = ((await cookies()).get('hm_lang')?.value || 'tr').toLowerCase();
   const sp = await searchParams;
   const name = sp.pr ? String(sp.pr) : '';
   const d = getDb();
@@ -137,7 +139,7 @@ export default async function OyuncuPage({ searchParams }) {
               .sort({ createdAt: -1 }).limit(5).toArray()).map(t => (
               <tr key={String(t._id)}>
                 <td><Link href={`/forum/konu/${t._id}-${t.slug}`}>{t.title}</Link></td>
-                <td className="muted small" style={{ whiteSpace: 'nowrap' }}>{timeAgo(t.createdAt)}</td>
+                <td className="muted small" style={{ whiteSpace: 'nowrap' }}>{timeAgo(t.createdAt, lang)}</td>
               </tr>
             ))}
           </tbody>

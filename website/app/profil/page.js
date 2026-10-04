@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 import { getDb } from '../../lib/db';
 import { getUser } from '../../lib/session';
 import { catInfo } from '../../lib/site-data';
@@ -9,6 +10,7 @@ export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Hesabım — HobbyMice', robots: { index: false, follow: false } };
 
 export default async function ProfilPage() {
+  const lang = ((await cookies()).get('hm_lang')?.value || 'tr').toLowerCase();
   const user = await getUser();
   if (!user) redirect('/giris?geri=%2Fprofil');
   const d = getDb();
@@ -79,7 +81,7 @@ export default async function ProfilPage() {
               <tr key={String(t._id)}>
                 <td><Link href={`/forum/konu/${t._id}-${t.slug}`}>{t.title}</Link></td>
                 <td className="muted small">{catInfo(t.category).emoji} {t.category}</td>
-                <td className="muted small" style={{ whiteSpace: 'nowrap' }}>{timeAgo(t.createdAt)}</td>
+                <td className="muted small" style={{ whiteSpace: 'nowrap' }}>{timeAgo(t.createdAt, lang)}</td>
               </tr>
             )) : (
               <tr><td className="muted">Henüz konu açmamışsın. <Link href="/forum/yeni">İlk konunu aç!</Link></td></tr>
