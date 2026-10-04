@@ -17,15 +17,22 @@ function slugify(s) {
     .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'konu';
 }
 
-function fmtDate(d) {
-  if (!d) return '';
-  const dt = d instanceof Date ? d : new Date(d);
-  return dt.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+// site dilleri -> Intl locale; bilinmeyen dil TR'ye düşer (mevcut davranış korunur)
+const LOCALES = { tr: 'tr-TR', en: 'en-US', fr: 'fr-FR', es: 'es-ES' };
+
+function localeOf(lang) {
+  return LOCALES[String(lang || '').toLowerCase()] || 'tr-TR';
 }
-function fmtDateTime(d) {
+
+function fmtDate(d, lang) {
   if (!d) return '';
   const dt = d instanceof Date ? d : new Date(d);
-  return dt.toLocaleString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  return dt.toLocaleDateString(localeOf(lang), { day: 'numeric', month: 'long', year: 'numeric' });
+}
+function fmtDateTime(d, lang) {
+  if (!d) return '';
+  const dt = d instanceof Date ? d : new Date(d);
+  return dt.toLocaleString(localeOf(lang), { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 function timeAgo(d) {
   const dt = d instanceof Date ? d : new Date(d);
