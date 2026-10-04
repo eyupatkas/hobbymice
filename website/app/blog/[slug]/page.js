@@ -32,6 +32,14 @@ export default async function BlogPostPage({ params }) {
     ? await d.collection('blog_posts').find({ status: 'published', tags: { $in: p.tags }, _id: { $ne: p._id } })
         .sort({ publishedAt: -1 }).limit(3).toArray()
     : [];
+  // İç bağlama yedeği: etiket eşleşmesi yoksa en son 3 yazı linklenir.
+  const fallbackRelated = related.length < 3
+    ? await d.collection('blog_posts')
+        .find({ status: 'published', _id: { $ne: p._id } })
+        .sort({ publishedAt: -1 }).limit(3 - related.length).toArray()
+    : [];
+  const relatedAll = [...related, ...fallbackRelated];
+  const faq = Array.isArray(p.faq) ? p.faq.filter(f => f?.q && f?.a) : [];
   const url = `https://hobbymice.com.tr/blog/${p.slug}`;
 
   const jsonLd = {
@@ -42,10 +50,18 @@ export default async function BlogPostPage({ params }) {
     publisher: { '@type': 'Organization', name: 'HobbyMice', logo: { '@type': 'ImageObject', url: 'https://hobbymice.com.tr/assets/logo.png' } },
     mainEntityOfPage: url,
   };
+  const faqJsonLd = faq.length ? {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faq.map(f => ({
+      '@type': 'Question', name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  } : null;
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
+      {faqJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }} />}
       <div className="breadcrumb"><Link href="/blog">Blog</Link> › {p.title}</div>
       <div className="panel article">
         <div className="cover">{p.emoji || '🧀'}</div>
@@ -57,6 +73,17 @@ export default async function BlogPostPage({ params }) {
         </div>
         {/* 内容在入库时经白名单清洗 */}
         <div dangerouslySetInnerHTML={{ __html: p.content }} />
+        {faq.length > 0 && (
+          <div style={{ marginTop: 26 }}>
+            <h2 style={{ fontSize: 19 }}>Sık Sorulan Sorular</h2>
+            {faq.map((f, i) => (
+              <details key={i} style={{ borderTop: '1px solid var(--line)', padding: '10px 4px' }} open={i === 0}>
+                <summary style={{ cursor: 'pointer', fontWeight: 700, fontSize: 14.5 }}>{f.q}</summary>
+                <p style={{ margin: '8px 0 2px', lineHeight: 1.7, fontSize: 14 }}>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        )}
       </div>
       <div className="share">
         <span>Paylaş:</span>
@@ -70,11 +97,11 @@ export default async function BlogPostPage({ params }) {
           {p.tags.map(t => <Link key={t} className="chip" href={`/blog/etiket/${encodeURIComponent(t)}`}>#{t}</Link>)}
         </div>
       )}
-      {related.length > 0 && (
+      {relatedAll.length > 0 && (
         <>
           <h2>Benzer Yazılar</h2>
           <div className="cardlist">
-            {related.map(r => (
+            {relatedAll.map(r => (
               <div className="postcard" key={String(r._id)}>
                 <h3><Link href={`/blog/${r.slug}`}>{r.title}</Link></h3>
                 <div className="meta">{fmtDate(r.publishedAt)}</div>

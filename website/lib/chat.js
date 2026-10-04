@@ -145,9 +145,11 @@ function attach(server) {
       let m = null;
       try { m = JSON.parse(String(data)); } catch { return; }
       if (!m || typeof m.t !== 'string') return;
-      if (m.t === 'msg') handleMsg(c, m).catch(e => console.error('[chat] handleMsg:', e.message));
-      else if (m.t === 'read') handleRead(c, m).catch(e => console.error('[chat] handleRead:', e.message));
-      else if (m.t === 'typing') handleTyping(c, m).catch(() => {});
+      // Promise.resolve sarimi: async olmayan handler (handleTyping) undefined
+      // dondurur; uzerinden .catch cagirmak butun sunucuyu cokurturdu (502'ler).
+      if (m.t === 'msg') Promise.resolve(handleMsg(c, m)).catch(e => console.error('[chat] handleMsg:', e.message));
+      else if (m.t === 'read') Promise.resolve(handleRead(c, m)).catch(e => console.error('[chat] handleRead:', e.message));
+      else if (m.t === 'typing') Promise.resolve(handleTyping(c, m)).catch(() => {});
     });
 
     ws.on('close', () => {

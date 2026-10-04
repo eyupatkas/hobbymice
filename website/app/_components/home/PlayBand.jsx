@@ -1,14 +1,15 @@
-export default function PlayBand() {
+import { t } from '../../../lib/i18n';
+
+export default function PlayBand({ lang = 'tr' }) {
   return (
     <section className="home-section" aria-label="Hemen Oyna Çağrısı">
       <div className="playband">
-        <h2>Peynir Macerası Seni Bekliyor! 🧀</h2>
+        <h2>{t(lang, 'band.title')}</h2>
         <p>
-          Kayıt olmak sadece 30 saniye sürer. Binlerce fare arasına katıl, şamanını geliştir
-          ve peynirleri deliğe ilk taşıyan sen ol!
+          {t(lang, 'band.desc')}
         </p>
         <a className="btn btn-play" href="/play">
-          ▶ ÜCRETSİZ HEMEN OYNA
+          {t(lang, 'band.btn')}
         </a>
       </div>
     </section>

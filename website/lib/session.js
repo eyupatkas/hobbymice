@@ -23,6 +23,48 @@ function gamePasswordHash(pw) {
     .digest('base64');
 }
 
+// PBKDF2 hesap sifresi sarmalayici — oyun sunucusuyla (org.transformice.utils.PasswordHasher)
+// birebir ayni format: pbkdf2$<iterations>$<saltB64>$<hashB64>. DB sizsasi token
+// dogrudan oynatilamaz (pass-the-hash kapali); eski duz kayitlar verify ile kabul
+// edilir ve ilk basarili giriste pbkdf2'ye gecirilir.
+const PBKDF2_ITERATIONS = 120000;
+const PBKDF2_KEYLEN = 32;
+
+function hashAccountPassword(passwordToken) {
+  const salt = crypto.randomBytes(16);
+  const dk = crypto.pbkdf2Sync(String(passwordToken), salt, PBKDF2_ITERATIONS, PBKDF2_KEYLEN, 'sha256');
+  return `pbkdf2$${PBKDF2_ITERATIONS}$${salt.toString('base64')}$${dk.toString('base64')}`;
+}
+
+function isPbkdf2Hash(stored) {
+  return typeof stored === 'string' && stored.startsWith('pbkdf2$');
+}
+
+function verifyAccountPassword(passwordToken, stored) {
+  const s = String(stored || '');
+  if (isPbkdf2Hash(s)) {
+    const [, iters, saltB64, hashB64] = s.split('$');
+    try {
+      const expected = Buffer.from(hashB64, 'base64');
+      const dk = crypto.pbkdf2Sync(String(passwordToken), Buffer.from(saltB64, 'base64'), parseInt(iters, 10) || PBKDF2_ITERATIONS, expected.length, 'sha256');
+      return crypto.timingSafeEqual(dk, expected);
+    } catch {
+      return false;
+    }
+  }
+  // Eski format: saklanan deger dogrudan client token'i (gamePasswordHash ciktisi)
+  return s.length > 0 && crypto.timingSafeEqual(Buffer.from(s), Buffer.from(gamePasswordHash(passwordToken)));
+}
+
+// verifyLogin sifrenin HAM halini degil, gamePasswordHash'ten gecmis TOKEN'ini
+// tutar; eski kayitta token zaten saklandigi icin burada TEKRAR hash'lenmez.
+function verifyAccountToken(token, stored) {
+  const s = String(stored || '');
+  if (isPbkdf2Hash(s)) return verifyAccountPassword(token, s);
+  return s.length > 0 && s.length === token.length &&
+    crypto.timingSafeEqual(Buffer.from(s), Buffer.from(token));
+}
+
 function isAdminAccount(acc) {
   const roles = Array.isArray(acc.staffRoles) ? acc.staffRoles : [];
   return roles.includes('Admin');
@@ -43,11 +85,24 @@ function loginRecordFail(ip) {
 }
 
 async function verifyLogin(user, password) {
-  const hash = gamePasswordHash(password);
-  return getDb().collection('accounts').findOne({
+  // Sifre artik sorguda karsilastirilmaz: hesap isim/e-posta ile bulunur, token
+  // Java tarafindaki algoritmayla (PBKDF2 / eski duz token) Java dışında burada dogrulanir.
+  const acc = await getDb().collection('accounts').findOne({
     $or: [{ playerName: String(user) }, { emailAddress: String(user).toLowerCase() }],
-    password: hash,
-  }) || null;
+  });
+  if (!acc) return null;
+
+  const token = gamePasswordHash(password);
+  if (!verifyAccountToken(token, acc.password)) return null;
+
+  // Seffaf gecis: eski duz kayit ilk basarili giriste pbkdf2'ye yukseltilir.
+  if (!isPbkdf2Hash(String(acc.password || '')) && String(token).length > 0) {
+    getDb().collection('accounts').updateOne(
+      { _id: acc._id },
+      { $set: { password: hashAccountPassword(token) } },
+    ).catch(() => {});
+  }
+  return acc;
 }
 
 async function createSession(acc, meta = {}) {
@@ -118,7 +173,7 @@ async function audit(user, action, target, details) {
 }
 
 module.exports = {
-  gamePasswordHash, verifyLogin, createSession, destroySession, userFromToken,
+  gamePasswordHash, hashAccountPassword, verifyAccountPassword, verifyAccountToken, verifyLogin, createSession, destroySession, userFromToken,
   getUser, readCookieValue, isAdminAccount, loginAllowed, loginRecordFail, audit,
   SESSION_COOKIE, SESSION_DAYS, STAFF_ROLES,
 };

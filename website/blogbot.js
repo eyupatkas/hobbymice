@@ -168,8 +168,13 @@ Görev: "${topic}" konusu için kapsamlı bir blog yazısı yaz.
   "excerpt": "150-160 karakterlik özet",
   "tags": ["etiket1", "etiket2", ...3-5 adet Türkçe etiket],
   "emoji": "makaleyi temsil eden tek emoji",
+  "faq": [{"q": "okuyucunun sık sorduğu Türkçe soru", "a": "2-3 cümlelik net Türkçe cevap"}, ...tam 3 adet],
   "content_html": "Makalenin TAM HTML gövdesi"
 }
+
+faq KURALLARI:
+- Tam 3 soru-cevap; makalenin konusuyla doğrudan ilgili, arama motorlarının "Sık Sorulan Sorular" kutuları için.
+- q ve a düz metin (HTML etiketi yok); a 2-3 cümle.
 
 content_html KURALLARI:
 - Sadece şu etiketler: <h2> <h3> <p> <ul> <ol> <li> <strong> <em> <a> <blockquote> <table> <tr> <td> <th>
@@ -188,12 +193,21 @@ content_html KURALLARI:
   const title = String(j.title).trim().slice(0, 120);
   const content = sanitizeHTML(j.content_html);
   if (content.replace(/<[^>]+>/g, '').length < 1200) throw new Error('içerik çok kısa');
+  // FAQ: duz metine indir, etiket temizle, en fazla 4 madde
+  const faq = (Array.isArray(j.faq) ? j.faq : [])
+    .map(f => ({
+      q: String(f?.q || '').replace(/<[^>]+>/g, '').trim().slice(0, 200),
+      a: String(f?.a || '').replace(/<[^>]+>/g, '').trim().slice(0, 600),
+    }))
+    .filter(f => f.q && f.a)
+    .slice(0, 4);
   return {
     title,
     slug: slugify(j.slug || title),
     excerpt: String(j.excerpt || '').trim().slice(0, 200),
     tags: Array.isArray(j.tags) ? j.tags.map(t => String(t).trim()).filter(Boolean).slice(0, 5) : [],
     emoji: typeof j.emoji === 'string' && j.emoji.length <= 8 ? j.emoji : '🧀',
+    faq,
     content,
   };
 }
@@ -212,7 +226,7 @@ async function pingIndexNow(url) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
       body: JSON.stringify({
-        host: new URL(SITE).host, key, keyLocation: `${SITE}/indexnow-${key}.txt`,
+        host: new URL(SITE).host, key, keyLocation: `${SITE}/${key}.txt`,
         urlList: [url],
       }),
       signal: AbortSignal.timeout(15000),
@@ -316,6 +330,7 @@ async function run({ dry = false } = {}) {
     excerpt: article.excerpt,
     emoji: article.emoji,
     tags: article.tags,
+    faq: article.faq || [],
     content: article.content,
     author: 'HobbyMice Bot',
     source: 'ai',

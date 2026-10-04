@@ -1,23 +1,25 @@
 import Link from 'next/link';
+import { t } from '../../../lib/i18n';
 
-export default function LauncherSpotlight() {
+export default function LauncherSpotlight({ lang = 'tr' }) {
   const launcherPerks = [
-    '⚡ Yüksek FPS & Akıcı Performans',
-    '🔄 Otomatik Sürüm Güncellemesi',
-    '🎶 Özel Giriş Müzikleri & Sesler',
-    '🛡️ Kurulum Gerektirmez (Taşınabilir ZIP)',
+    t(lang, 'launcher.perk1'),
+    t(lang, 'launcher.perk2'),
+    t(lang, 'launcher.perk3'),
+    t(lang, 'launcher.perk4'),
   ];
+
+  const headTitle = t(lang, 'launcher.title').split('**');
 
   return (
     <section className="home-section" aria-label="Masaüstü Launcher">
       <div className="launcher-spotlight">
         <div className="launcher-info">
           <h3>
-            Masaüstü Deneyimi: <b>HobbyMice Launcher</b>
+            {headTitle[0]} <b>{headTitle[1]}</b>
           </h3>
           <p>
-            Daha akıcı bir oyun, kusursuz klavye tepki süresi ve özel ses efektleri için
-            özel olarak geliştirilen resmi Windows Launcher ile oyna. İndir, ZIP&apos;ten çıkar ve doğrudan çalıştır!
+            {t(lang, 'launcher.desc')}
           </p>
           <div className="launcher-features">
             {launcherPerks.map((perk, idx) => (
@@ -28,11 +30,11 @@ export default function LauncherSpotlight() {
           </div>
           <div className="launcher-cta-box">
             <a className="btn btn-play" href="/dl/Hobby-Mice.zip">
-              ⬇ Launcher İndir (Windows)
+              {t(lang, 'launcher.btn')}
             </a>
             <span className="launcher-subtext">
-              Sürüm 1.889 &middot; Windows 7 / 8 / 10 / 11 &middot;{' '}
-              <Link href="/launcher">Ayrıntılar ve kurulum →</Link>
+              {t(lang, 'launcher.version')}{' '}
+              <Link href="/launcher">{t(lang, 'launcher.details')}</Link>
             </span>
           </div>
         </div>
@@ -45,7 +47,7 @@ export default function LauncherSpotlight() {
             height="592"
             loading="lazy"
           />
-          <figcaption>Resmi HobbyMice Launcher — ana ekran</figcaption>
+          <figcaption>{t(lang, 'launcher.figcap')}</figcaption>
         </figure>
       </div>
     </section>

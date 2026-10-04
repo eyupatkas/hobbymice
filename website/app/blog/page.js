@@ -6,8 +6,9 @@ import { fmtDate, nf, excerpt, readingTime, toInt } from '../../lib/util';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
+  alternates: { canonical: '/blog' },
   title: 'HobbyMice Blog — Rehberler, Taktikler ve Haberler',
-  description: 'Transformice ve HobbyMice üzerine Türkçe rehberler: şaman taktikleri, mod stratejileri, harita ipuçları ve topluluk haberleri.',
+  description: 'Transformice ve HobbyMice üzerine rehberler: şaman taktikleri, mod stratejileri, harita ipuçları ve topluluk haberleri.',
 };
 
 const PER_PAGE = 10;

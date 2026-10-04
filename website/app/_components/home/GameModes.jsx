@@ -1,39 +1,43 @@
-const MODES = [
-  {
-    ico: '🧀',
-    tag: 'Klasik Mod',
-    title: 'Vanilla Odaları',
-    desc: 'Orijinal Transformice haritaları. Şamanın kurduğu tahta ve köprülerle peynire ulaş, deliğe dön ve kabilene puan kazandır.',
-  },
-  {
-    ico: '⚡',
-    tag: 'PVP & Refleks',
-    title: 'Survivor',
-    desc: 'Kızgın şaman gülleler fırlatıyor! Zeminlerden ustaca kaç, şamanın saldırılarını savuştur ve ayakta kalan son fare sen ol.',
-  },
-  {
-    ico: '🏁',
-    tag: 'Hız Parkuru',
-    title: 'Racing',
-    desc: 'Şaman yok, yardım yok, yalnızca saf hız! Engelleri rekor sürede aşarak fare deliğine ilk giren ol ve First unvanını kap.',
-  },
-  {
-    ico: '🧗',
-    tag: 'Ustalık Testi',
-    title: 'Bootcamp',
-    desc: 'Wall-jump, corner-jump ve zorlu tırmanma teknikleri gerektiren ekstrem parkurlar. Sabır ve mutlak ustalık gerektirir.',
-  },
-];
+import { t } from '../../../lib/i18n';
 
-export default function GameModes() {
+export default function GameModes({ lang = 'tr' }) {
+  const MODES = [
+    {
+      ico: '🧀',
+      tag: t(lang, 'modes.m1tag'),
+      title: t(lang, 'modes.m1t'),
+      desc: t(lang, 'modes.m1d'),
+    },
+    {
+      ico: '⚡',
+      tag: t(lang, 'modes.m2tag'),
+      title: t(lang, 'modes.m2t'),
+      desc: t(lang, 'modes.m2d'),
+    },
+    {
+      ico: '🏁',
+      tag: t(lang, 'modes.m3tag'),
+      title: t(lang, 'modes.m3t'),
+      desc: t(lang, 'modes.m3d'),
+    },
+    {
+      ico: '🧗',
+      tag: t(lang, 'modes.m4tag'),
+      title: t(lang, 'modes.m4t'),
+      desc: t(lang, 'modes.m4d'),
+    },
+  ];
+
+  const headTitle = t(lang, 'modes.title').split('**');
+
   return (
     <section id="modlar" className="home-section" aria-labelledby="modes-heading">
       <div className="section-head">
         <h2 id="modes-heading">
-          Her Tarza Uygun <b>Oyun Modları</b>
+          {headTitle[0]}<b>{headTitle[1]}</b>
         </h2>
         <p>
-          Tek bir modla sınırlı kalma! İster arkadaşlarınla yarış, ister hayatta kal, ister şaman yeteneklerini konuştur.
+          {t(lang, 'modes.sub')}
         </p>
       </div>
 

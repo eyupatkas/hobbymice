@@ -1,9 +1,27 @@
 'use client';
-// Facebook 风格右下角聊天挂件：游戏好友列表 + 单聊 + 正在输入 + 未读角标。
-// 未登录时按钮打开登录邀请。后端协议见 lib/chat.js。
+// Sağ altta oyun arkadaşlarıyla birebir sohbet widget'ı (canlı destek DEĞİL —
+// panelde açıkça yazar). Metinler lib/i18n.js'ten; eksik çeviri build'i düşürür.
 import { useEffect, useRef, useState } from 'react';
+import { t as strictT, validateTranslations } from '../../lib/i18n';
+
+if (process.env.NODE_ENV !== 'production') {
+  validateTranslations();
+}
+
+function useChatT() {
+  const [lang, setLang] = useState('tr');
+  useEffect(() => {
+    try {
+      let l = localStorage.getItem('hm_lang');
+      if (!l) l = (navigator.language || 'tr').slice(0, 2).toLowerCase();
+      setLang(['tr', 'en', 'fr', 'es'].includes(l) ? l : 'tr');
+    } catch { /* özel mod */ }
+  }, []);
+  return (key) => strictT(lang, key);
+}
 
 export default function ChatWidget({ user }) {
+  const t = useChatT();
   const me = user && user.playerName ? user.playerName : null;
   const [open, setOpen] = useState(false);
   const [friends, setFriends] = useState([]);
@@ -96,7 +114,7 @@ export default function ChatWidget({ user }) {
 
   return (
     <div id="hm-chat-root">
-      <button id="hmchat-btn" title="Sohbet" onClick={() => setOpen(o => !o)}>
+      <button id="hmchat-btn" title={t('chat.title')} onClick={() => setOpen(o => !o)}>
         <span>💬</span>
         {unreadShown > 0 && <i id="hmchat-badge">{unreadShown > 99 ? '99+' : unreadShown}</i>}
       </button>
@@ -105,32 +123,33 @@ export default function ChatWidget({ user }) {
           {active
             ? <button className="hmc-ico" onClick={() => setActive(null)}>←</button>
             : <span />}
-          <span className="hmc-title">🧀 Sohbet{active ? ` · ${active}` : ''}</span>
+          <span className="hmc-title">🧀 {t('chat.title')}{active ? ` · ${active}` : ''}</span>
           <button className="hmc-ico" onClick={() => setOpen(false)}>✕</button>
         </div>
         <div id="hmchat-body">
+          <div className="hmc-hint">{t('chat.hint')}</div>
           {!me ? (
             <div className="hmc-login">
               <div style={{ fontSize: 34 }}>🧀</div>
-              <p>Arkadaşlarınla canlı sohbet etmek için giriş yap.</p>
-              <a className="btn btn-play btn-sm" href="/giris?geri=%2F">Giriş Yap</a>
+              <p>{t('chat.loginText')}</p>
+              <a className="btn btn-play btn-sm" href="/giris?geri=%2F">{t('chat.loginBtn')}</a>
             </div>
           ) : active ? (
             <>
               <div className="hmc-chat" ref={boxRef}>
-                {history.length === 0 && !typing && <div className="hmc-history">Sohbetin başlangıcısın ✨</div>}
+                {history.length === 0 && !typing && <div className="hmc-history">{t('chat.empty')}</div>}
                 {history.map((m, i) => (
                   <div key={i} className={'hmc-bub' + (m.from === me ? ' mine' : '')}>
                     <span>{m.body}</span>
                     <span className="hmc-ts">{new Date(m.ts).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
                 ))}
-                {typing && <div className="hmc-bub hmc-typing">yazıyor…</div>}
+                {typing && <div className="hmc-bub hmc-typing">{t('chat.typing')}</div>}
               </div>
               <form id="hmc-form" onSubmit={sendMsg}>
                 <input
                   id="hmc-input" maxLength={500} autoComplete="off"
-                  placeholder="Mesaj yaz…" value={input}
+                  placeholder={t('chat.placeholder')} value={input}
                   onChange={e => setInput(e.target.value)} onInput={onInput}
                 />
                 <button className="hmc-send">➤</button>
@@ -149,8 +168,8 @@ export default function ChatWidget({ user }) {
           ) : (
             <div className="hmc-login">
               <div style={{ fontSize: 34 }}>🐭</div>
-              <p>Henüz arkadaşın yok. Oyunda arkadaş eklediğin fareler burada görünür.</p>
-              <a className="btn btn-ghost btn-sm" href="/play">🧀 Oyuna Git</a>
+              <p>{t('chat.noFriends')}</p>
+              <a className="btn btn-ghost btn-sm" href="/play">🧀 {t('chat.noFriendsBtn')}</a>
             </div>
           )}
         </div>

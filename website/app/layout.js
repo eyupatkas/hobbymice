@@ -2,6 +2,7 @@ import './globals.css';
 import { getUser } from '../lib/session';
 import Header, { Footer } from './_components/Chrome';
 import ChatWidget from './_components/ChatWidget';
+import VisitTracker from './_components/VisitTracker';
 
 export const metadata = {
   metadataBase: new URL(process.env.SITE_URL || 'https://hobbymice.com.tr'),
@@ -25,6 +26,7 @@ export default async function RootLayout({ children }) {
         <main className="wrap">{children}</main>
         <Footer user={publicUser} />
         <ChatWidget user={publicUser} />
+        <VisitTracker />
       </body>
     </html>
   );

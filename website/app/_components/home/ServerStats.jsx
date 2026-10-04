@@ -1,31 +1,36 @@
-export default function ServerStats({ stats }) {
-  const defaultStats = [
+// Ana sayfa istatistikleri — TAMAMI GERÇEK veriler (app/page.js'ten gelir):
+// online = oyun sunucusunun güncel server_stats örneği; players = kayıtlı hesap;
+// cheese = hesaplardaki toplam peynir; maps = vanilla + topluluk haritası.
+import { t } from '../../../lib/i18n';
+
+export default function ServerStats({ stats, lang = 'tr' }) {
+  const items = [
     {
-      ico: '🧀',
-      val: stats?.cheese || '1.250.000+',
-      lbl: 'Toplanan Peynir',
+      ico: '⚡',
+      val: stats?.online != null ? String(stats.online) : '—',
+      lbl: t(lang, 'stats.online'),
     },
     {
       ico: '🐭',
-      val: stats?.players || '5.000+',
-      lbl: 'Kayıtlı Fare',
+      val: stats?.players || '—',
+      lbl: t(lang, 'stats.players'),
+    },
+    {
+      ico: '🧀',
+      val: stats?.cheese || '—',
+      lbl: t(lang, 'stats.cheese'),
     },
     {
       ico: '🗺️',
-      val: '10.000+',
-      lbl: 'Özgün Harita',
-    },
-    {
-      ico: '⚡',
-      val: '%99.9',
-      lbl: 'Kesintisiz Uptime',
+      val: stats?.maps || '—',
+      lbl: t(lang, 'stats.maps'),
     },
   ];
 
   return (
     <section className="home-stats-section" aria-label="Sunucu İstatistikleri">
       <div className="home-stats-grid">
-        {defaultStats.map((st, i) => (
+        {items.map((st, i) => (
           <div key={i} className="stat-box">
             <div className="stat-box-ico">{st.ico}</div>
             <div className="stat-box-info">

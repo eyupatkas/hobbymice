@@ -12,6 +12,7 @@ export async function generateMetadata({ searchParams }) {
   return {
     title: `En İyi Oyuncular — ${LB_DEFS[tur].label} Sıralaması | HobbyMice`,
     description: `HobbyMice'in en iyi oyuncuları: ${LB_DEFS[tur].label.toLowerCase()} sıralamasında ilk 50. Sen de oyna, listeye gir!`,
+    alternates: { canonical: '/siralama' },
   };
 }
 

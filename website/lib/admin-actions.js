@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { ObjectId } from 'mongodb';
 import { getDb } from './db';
-import { getUser, gamePasswordHash, audit, STAFF_ROLES } from './session';
+import { getUser, gamePasswordHash, hashAccountPassword, audit, STAFF_ROLES } from './session';
 import { PLAYER_FIELDS } from './player-fields';
 import { sanitizeHTML } from './sanitize';
 import { slugify, toInt } from './util';
@@ -76,7 +76,9 @@ export async function changePassword(formData) {
   const d = getDb();
   const acc = await d.collection('accounts').findOne({ _id: accId });
   if (!acc) redirect('/admin/oyuncular');
-  await d.collection('accounts').updateOne({ _id: acc._id }, { $set: { password: gamePasswordHash(pw) } });
+  // Yeni sifre PBKDF2 ile saklanir; token = gamePasswordHash(gercek sifre) —
+  // oyun istemcisi ayni token'i gonderdigi icin iki taraf da dogrular.
+  await d.collection('accounts').updateOne({ _id: acc._id }, { $set: { password: hashAccountPassword(gamePasswordHash(pw)) } });
   await d.collection('site_sessions').deleteMany({ accountId: acc._id });
   audit(user.playerName, 'oyuncu-sifre-degistir', acc.playerName, '');
   redirect(`/admin/oyuncular/${acc._id}`);

@@ -22,6 +22,7 @@ export async function GET() {
     ['/', '1.0', 'daily', null], ['/play', '0.9', 'daily', null], ['/launcher', '0.9', 'weekly', null],
     ['/forum', '0.8', 'hourly', null],
     ['/blog', '0.9', 'daily', null], ['/siralama', '0.7', 'daily', null],
+    ['/guncellemeler', '0.6', 'daily', null],
     ...tagAgg.map(t => [`/blog/etiket/${encodeURIComponent(t._id)}`, '0.5', 'weekly', null]),
     ...posts.map(p => [`/blog/${p.slug}`, '0.8', 'weekly', w3(p.updatedAt || p.publishedAt)]),
     ...topics.map(t => [`/forum/konu/${t._id}-${t.slug}`, '0.6', 'daily', w3(t.lastActivity)]),

@@ -1,14 +1,15 @@
 import Link from 'next/link';
+import { t } from '../../../lib/i18n';
 import DlInfo from '../DlInfoClient';
 
 export { default as DlInfo } from '../DlInfoClient';
 
-export default function HeroSection() {
+export default function HeroSection({ lang = 'tr' }) {
   const chips = [
-    '✓ Tamamen Ücretsiz',
-    '✓ Kurulum Gerektirmez (Ruffle)',
-    '✓ Sürüm 1.889 Güncel',
-    '✓ %100 Türkçe Topluluk',
+    t(lang, 'hero.chipFree'),
+    t(lang, 'hero.chipNoInstall'),
+    t(lang, 'hero.chipVersion'),
+    t(lang, 'hero.chipCommunity'),
   ];
 
   return (
@@ -16,7 +17,7 @@ export default function HeroSection() {
       <div className="hero-content">
         <div className="hero-badge">
           <span className="hero-badge-dot" />
-          <span>HobbyMice Sunucusu Aktif &middot; v1.889</span>
+          <span>{t(lang, 'hero.badge')}</span>
         </div>
 
         <div className="hero-brand">
@@ -24,21 +25,20 @@ export default function HeroSection() {
         </div>
 
         <h1 className="hero-title">
-          <span>Peynirin Peşinde</span>{' '}
-          <span className="hero-title-highlight">Efsanevi Bir Macera!</span>
+          <span>{t(lang, 'hero.title1')}</span>{' '}
+          <span className="hero-title-highlight">{t(lang, 'hero.title2')}</span>
         </h1>
 
         <p className="hero-desc">
-          HobbyMice, sevimli farelerin peynir kapıp deliğe koştuğu, dostlukların ve
-          kızgın şamanların buluştuğu ücretsiz çevrimiçi oyundur. İndirmeye gerek yok — tarayıcında tek tıkla başla!
+          {t(lang, 'hero.desc')}
         </p>
 
         <div className="hero-actions">
           <a className="btn btn-play hero-btn-play" href="/play">
-            ▶ HEMEN OYNA
+            {t(lang, 'hero.btnPlay')}
           </a>
           <a className="btn btn-secondary hero-btn-dl" href="/launcher">
-            ⬇ Bilgisayara İndir (Launcher)
+            {t(lang, 'hero.btnDownload')}
           </a>
         </div>
 
@@ -61,11 +61,9 @@ export default function HeroSection() {
               alt="HobbyMice Dünyası"
               className="hero-img-element"
               loading="eager"
+              width={560}
+              height={420}
             />
-          </div>
-          <div className="hero-card-bar">
-            <span className="hero-card-tag">🧀 Resmi Launcher &amp; Web</span>
-            <span className="hero-card-sub">Atelier 801 Fan Projesi</span>
           </div>
         </div>
       </div>

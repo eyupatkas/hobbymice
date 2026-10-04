@@ -8,6 +8,7 @@ export const metadata = { title: 'Yönetim — HobbyMice', robots: { index: fals
 
 const TABS = [
   ['/admin', '📊 Özet'],
+  ['/admin/analitik', '📈 Analitik'],
   ['/admin/oyuncular', '👥 Oyuncular'],
   ['/admin/forum', '💬 Forum'],
   ['/admin/blog', '📝 Blog'],

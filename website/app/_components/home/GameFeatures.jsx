@@ -1,35 +1,39 @@
-const FEATURES = [
-  {
-    ico: '🌐',
-    title: 'Tarayıcıda Anında Oyna',
-    desc: 'Flash yükleme derdine son! Modern tarayıcında Ruffle WebAssembly motoru ile Chrome, Edge, Firefox ve Safari üzerinden tek tıkla doğrudan oyuna gir.',
-  },
-  {
-    ico: '⚔️',
-    title: 'PVP & Özel Oyun Modları',
-    desc: 'Survivor, Racing, Bootcamp, Defilante ve Lua mini oyunları. Şaman becerilerini geliştir, rakiplerini alt et ve sıralamada zirveye tırman.',
-  },
-  {
-    ico: '🗺️',
-    title: 'Sonsuz Harita & Editör',
-    desc: 'Topluluk tarafından tasarlanan binlerce harita ve gelişmiş harita editörü. Kendi özgün parkurlarını oluştur, yayınla ve diğer farelerle paylaş.',
-  },
-  {
-    ico: '🧀',
-    title: 'Canlı Türkçe Topluluk',
-    desc: 'Türkiye’nin en samimi fareleri burada! Kabile kur, sohbet et, klan savaşlarına katıl veya forumda taktiklerini ve rehberlerini paylaş.',
-  },
-];
+import { t } from '../../../lib/i18n';
 
-export default function GameFeatures() {
+export default function GameFeatures({ lang = 'tr' }) {
+  const FEATURES = [
+    {
+      ico: '🌐',
+      title: t(lang, 'feat.f1t'),
+      desc: t(lang, 'feat.f1d'),
+    },
+    {
+      ico: '⚔️',
+      title: t(lang, 'feat.f2t'),
+      desc: t(lang, 'feat.f2d'),
+    },
+    {
+      ico: '🗺️',
+      title: t(lang, 'feat.f3t'),
+      desc: t(lang, 'feat.f3d'),
+    },
+    {
+      ico: '🧀',
+      title: t(lang, 'feat.f4t'),
+      desc: t(lang, 'feat.f4d'),
+    },
+  ];
+
+  const headTitle = t(lang, 'feat.title').split('**');
+
   return (
     <section id="ozellikler" className="home-section" aria-labelledby="feat-heading">
       <div className="section-head">
         <h2 id="feat-heading">
-          Neden <b>HobbyMice?</b>
+          {headTitle[0]}<b>{headTitle[1]}</b>
         </h2>
         <p>
-          Hızlı, güvenli ve nostaljik bir Transformice deneyimi için her detayı özenle hazırladık.
+          {t(lang, 'feat.sub')}
         </p>
       </div>
 

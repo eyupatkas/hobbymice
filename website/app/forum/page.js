@@ -6,6 +6,7 @@ import { timeAgo, nf, excerpt, toInt } from '../../lib/util';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
+  alternates: { canonical: '/forum' },
   title: 'HobbyMice Forum — Topluluk Merkezi',
   description: 'HobbyMice topluluk forumu: oyun rehberleri, şaman akademisi, mod taktikleri, kabile ilanları ve sohbet. Oyun hesabınla katıl!',
 };

@@ -1,37 +1,41 @@
-const STEPS = [
-  {
-    num: 1,
-    title: 'Tarayıcıda Başla veya İndir',
-    desc: 'Hemen OYNA butonuna basarak doğrudan tarayıcında açabilir ya da daha yüksek FPS için Windows Launcher sürümünü indirebilirsin.',
-  },
-  {
-    num: 2,
-    title: 'Ücretsiz Profilini Oluştur',
-    desc: 'Oyun açıldığında kullanıcı adını belirle ve Create Account ile hesabını anında kaydet. E-posta zorunluluğu yok, 30 saniyede hazırsın!',
-  },
-  {
-    num: 3,
-    title: 'Peyniri Kap & Şaman Ol!',
-    desc: 'Ok tuşlarıyla engelleri aş, dev peyniri sırtla ve deliğe dön. Sıran geldiğinde şaman olup arkadaşlarına köprü kur, onları kurtar!',
-  },
-];
+import { t } from '../../../lib/i18n';
 
-const CONTROLS = [
-  { keys: ['W', 'A', 'S', 'D'], label: 'veya Yön Tuşları ile Hareket & Zıplama' },
-  { keys: ['↓', 'S'], label: 'Eğilme & Fare Deliğine Giriş' },
-  { keys: ['Boşluk'], label: 'Görünmez Nesne / Şaman Seçimi' },
-  { keys: ['1-9'], label: 'Şaman Eşya Kısayolları' },
-];
+export default function HowToPlay({ lang = 'tr' }) {
+  const STEPS = [
+    {
+      num: 1,
+      title: t(lang, 'how.s1t'),
+      desc: t(lang, 'how.s1d'),
+    },
+    {
+      num: 2,
+      title: t(lang, 'how.s2t'),
+      desc: t(lang, 'how.s2d'),
+    },
+    {
+      num: 3,
+      title: t(lang, 'how.s3t'),
+      desc: t(lang, 'how.s3d'),
+    },
+  ];
 
-export default function HowToPlay() {
+  const CONTROLS = [
+    { keys: ['W', 'A', 'S', 'D'], label: t(lang, 'how.c1') },
+    { keys: ['↓', 'S'], label: t(lang, 'how.c2') },
+    { keys: ['Boşluk'], label: t(lang, 'how.c3') },
+    { keys: ['1-9'], label: t(lang, 'how.c4') },
+  ];
+
+  const headTitle = t(lang, 'how.title').split('**');
+
   return (
     <section id="nasil" className="home-section" aria-labelledby="nasil-heading">
       <div className="section-head">
         <h2 id="nasil-heading">
-          Nasıl <b>Oynanır?</b>
+          {headTitle[0]}<b>{headTitle[1]}</b>
         </h2>
         <p>
-          Transformice oynamak hiç bu kadar kolay olmamıştı. Sadece üç basit adımda peynirin peşine düşebilirsin.
+          {t(lang, 'how.sub')}
         </p>
       </div>
 

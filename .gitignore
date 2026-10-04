@@ -15,12 +15,17 @@ node_modules/
 .v2c/
 .video_agent/
 
-# heavy binary client trees (kaynak degil, dagitim)
+# heavy binary client trees (kaynak degil, dagitim) — pipeline config'i hariç
 client/
-client-build/
+client-build/*
+!client-build/rewrites.json
+!client-build/build_client.sh
 launcher/
 electron-launcher/dist/
 
 # derived binary
 158.swf.uncompressed
 Transformice/
+
+# ZCode lokal durumu (config + memory — tamami yerel)
+.zcode/

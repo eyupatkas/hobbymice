@@ -24,6 +24,22 @@ export default async function ProfilPage() {
     <div className="stat" key={l}><div className="v">{nf(v)}</div><div className="l">{l}</div></div>
   );
 
+  // Basarim rozetleri: hesap verisinden hesaplanir (oyunla ayni esik mantigi).
+  const totalSaves = (acc.normalSaves || 0) + (acc.hardSaves || 0) + (acc.divineSaves || 0);
+  const veteranDays = acc.regDate ? Math.floor((Date.now() - acc.regDate * 1000) / 86400000) : 0;
+  const achievements = [
+    { ico: '🧀', name: 'Peynir Sever', desc: '100 peynir topla', got: (acc.cheeseCount || 0) >= 100 },
+    { ico: '🏆', name: 'Peynir Kralı', desc: '1.000 peynir topla', got: (acc.cheeseCount || 0) >= 1000 },
+    { ico: '🥇', name: 'İlk First', desc: 'İlk firstünü al', got: (acc.firstCount || 0) >= 1 },
+    { ico: '🎯', name: 'First Avcısı', desc: '10 first topla', got: (acc.firstCount || 0) >= 10 },
+    { ico: '🛡️', name: 'Kaptan Şaman', desc: 'Toplam 100 kurtarma', got: totalSaves >= 100 },
+    { ico: '⚔️', name: 'Efsane Şaman', desc: 'Toplam 500 kurtarma', got: totalSaves >= 500 },
+    { ico: '🔥', name: 'Serinin Gücü', desc: '3 gün üst üste giriş (günlük ödül serisi)', got: (acc.dailyStreak || 0) >= 3 },
+    { ico: '💎', name: 'Sadık Fare', desc: '7 gün üst üste giriş', got: (acc.dailyStreak || 0) >= 7 },
+    { ico: '🎂', name: 'Erken Dönem', desc: '30+ gündür oyundasın', got: veteranDays >= 30 },
+  ];
+  const gotCount = achievements.filter(a => a.got).length;
+
   return (
     <>
       <div className="pagehead">
@@ -37,6 +53,23 @@ export default async function ProfilPage() {
         {stat(acc.normalSaves, '🐭 Kurtarma')}
         {stat(acc.hardSaves, '💪 Zor Kurtarma')}
         {stat(replyCount, '💬 Forum cevabı')}
+      </div>
+      <h2>🏅 Başarımlar <span className="muted small">({gotCount}/{achievements.length})</span></h2>
+      <div className="panel tight" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(190px,1fr))', gap: 10 }}>
+        {achievements.map((a, i) => (
+          <div key={i} style={{
+            display: 'flex', gap: 10, alignItems: 'center', padding: '10px 12px', borderRadius: 12,
+            border: '1px solid ' + (a.got ? 'var(--cheese)' : 'var(--line)'),
+            background: a.got ? 'rgba(255,204,64,.07)' : 'transparent',
+            opacity: a.got ? 1 : 0.55,
+          }} title={a.desc}>
+            <span style={{ fontSize: 24, filter: a.got ? 'none' : 'grayscale(1)' }}>{a.ico}</span>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 13 }}>{a.name}</div>
+              <div className="muted" style={{ fontSize: 11.5 }}>{a.desc}</div>
+            </div>
+          </div>
+        ))}
       </div>
       <h2>Konularım</h2>
       <div className="panel tight">
