@@ -3,6 +3,71 @@
   "entries": [
     {
       "date": "2026-10-04",
+      "title": "🎡 Çarkıfelek + Günlük Görev Paneli + Haftalık Peynir Yarışması!",
+      "tag": "oyun",
+      "items": [
+        "🎡 /cark — Her gün BİR KEZ ücretsiz çark: peynir, çilek, sürpriz hediyeler ve nadir JACKPOT (10 çilek + Şanslı Fare unvanı)! Jackpot tüm sunucuya duyurulur",
+        "📋 /gorev — Günün görevlerini renkli panelde takip et: peynir topla, şamanlık yap, markette alışveriş… biten görev peynir verir, dolan sepet çilek!",
+        "🏁 /haftalik — Haftalık peynir yarışması başladı: her pazartesi ilk 3 fare 3/2/1 çilek + peynir bonusu, 1. sıra '★ Şampiyon Fare ★' unvanını kapar",
+        "🎯 Görev tamamlamaları artık renkli duyurularla kutlanıyor — tüm görevleri bitiren sunucuya duyurulur",
+        "🖱️ Sitede oyuncu profillerinde görev çubukları, çark durumu ve haftalık skor görüntüleniyor"
+      ]
+    },
+    {
+      "date": "2026-10-04",
+      "title": "Oyuncu Kartı Bağlantıları Çalışıyor + Yeni Market Unvanları",
+      "tag": "oyun",
+      "items": [
+        "🖱️ Oyunda bir fareye tıklayınca açılan PROFİL ve MESAJ bağlantıları artık site sayfalarımıza götürüyor — oyuncu profilleri sitede görüntülenebilir",
+        "🛒 Market unvanları yenilendi: yıldızlı tekrarlar yerine 12 farklı unvan (Alışverişkolik → Elmas Fare)",
+        "🖼️ Modüllerin ayrılan oyuncu görsellerini silme hatası kökten çözüldü"
+      ]
+    },
+    {
+      "date": "2026-10-04",
+      "title": "🍕 Pizzeria Canlı! Kendi Restoranını İşlet",
+      "tag": "oyun",
+      "items": [
+        "🍕 #pizzeria modülü artık stabil: Fare Köyü pizzeriasında sipariş al, malzeme dik, pizza pişir, müşterileri mutlu et!",
+        "👥 4 oyuncu şartı kaldırıldı — istediğin zaman tek başına da keşfedebilirsin",
+        "🛠️ Modüllerin hepsinde gün boyu yapılan kök düzeltmeler (Lua uyumluluk katmanı, tarih fonksiyonu, timer sistemi) canlıda"
+      ]
+    },
+    {
+      "date": "2026-10-04",
+      "title": "Modül Ekosistemi Kökten Düzeltildi — Hepsi Çalışıyor!",
+      "tag": "oyun",
+      "items": [
+        "🛠️ Tüm modüllerin çökme nedenleri bulundu: eksik Lua fonksiyonları (table.foreach), bozuk tarih fonksiyonu ve timer yönetimi — hepsi düzeltildi",
+        "📅 Sunucu artık gerçek tarih/saat sağlıyor — Cannonup gibi mevsimlik modüller doğru içerikle açılıyor",
+        "⏲️ Modül timer'ları artık hataya rağmen çalışmayı sürdürür — oda kapansa bile timer'lar düzgün temizlenir",
+        "🎮 #crowdsurf, #powers, #pizzeria, #infected, #cannonup, #hardcamp, #vampir, #bomba, #gravity — hepsi canlı! Oda adlarıyla katılın"
+      ]
+    },
+    {
+      "date": "2026-10-04",
+      "title": "Tüm Modüller Onarıldı — Yeni Unvanlar, Steam Banner Fix",
+      "tag": "oyun",
+      "items": [
+        "🛠️ Modüllerin çökme kökleri bulundu ve düzeltildi: Lua ortamına eksik fonksiyonlar (table.foreach vb.) eklendi",
+        "📅 Sunucunun tarih/saat fonksiyonu gerçekçi hale getirildi — Cannonup gibi mevsimlik modüller artık doğru mevsim içeriğiyle açılıyor",
+        "⏲️ Modül timer'ları artık hata halinde bile ölmez — modüller kesintisiz çalışır",
+        "🖱️ Menüdeki bazı Steam bağlantıları artık bizim launcher ZIP'imizi indirir"
+      ]
+    },
+    {
+      "date": "2026-10-04",
+      "title": "Modüller Geri Geldi — Daha Sağlam!",
+      "tag": "oyun",
+      "items": [
+        "🏄 #crowdsurf ve ⚡ #powers geri geldi — sunucu tarafı sağlamlaştırma ile artık init hatasında modül kapanmıyor, çalışmaya devam ediyor",
+        "🍕 #pizzeria da tekrar açık — timer hatası devam ederse yeni log sistemi kök nedeni bize gösterecek",
+        "🛒 Market unvanları yenilendi: eşya aldıkça yıldızlı tekrar unvanlar yerine 10 farklı özel unvan kazanırsın (Yetenekli Fare → Bootcamp Bağımlısı arası)",
+        "📰 Dil dosyaları artık cache lenmiyor — oyun içi Yenilikler penceresi her güncellemede anında tazelenir"
+      ]
+    },
+    {
+      "date": "2026-10-04",
       "title": "🌍 Site Artık Tarihleri de Senin Dilinde Gösteriyor",
       "tag": "site",
       "items": [

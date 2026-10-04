@@ -9,7 +9,7 @@ body{background:radial-gradient(1200px 600px at 70% -10%, #2b2150 0%, var(--bg) 
   font-family:'Segoe UI',system-ui,-apple-system,sans-serif;min-height:100vh;line-height:1.55}
 a{color:var(--cheese);text-decoration:none}
 a:hover{text-decoration:underline}
-.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1380px;margin:0 auto;padding:0 20px}
 .topbar{background:rgba(20,16,31,.85);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;backdrop-filter:blur(8px)}
 .topbar-in{display:flex;align-items:center;justify-content:space-between;padding:10px 20px}
 .brand img{height:44px;display:block}
@@ -170,7 +170,7 @@ a.chip:hover{text-decoration:none;background:rgba(255,204,64,.16)}
 /* ============ YENİ HEADER / FOOTER / DROPDOWN ============ */
 .site-head{position:sticky;top:0;z-index:100;background:rgba(16,12,27,.92);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);box-shadow:0 4px 24px rgba(0,0,0,.35)}
-.head-in{display:flex;align-items:center;gap:18px;padding:10px 20px;max-width:1200px}
+.head-in{display:flex;align-items:center;gap:18px;padding:10px 20px;max-width:1380px}
 .brand img{height:44px;display:block}
 .mainnav{display:flex;gap:4px;flex:1}
 .mainnav a{color:var(--muted);font-weight:600;font-size:14.5px;padding:8px 12px;border-radius:10px;transition:.15s}
@@ -225,7 +225,7 @@ a.chip:hover{text-decoration:none;background:rgba(255,204,64,.16)}
 
 /* ============ FOOTER ============ */
 .site-foot{border-top:1px solid var(--line);margin-top:50px;background:rgba(16,12,27,.6)}
-.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px;padding:38px 20px 30px;max-width:1200px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px;padding:38px 20px 30px;max-width:1380px}
 .fcol{display:flex;flex-direction:column;gap:9px}
 .fcol h4{color:var(--cheese);font-size:13.5px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
 .fcol a,.fcol .linkbtn{color:var(--muted);font-size:13.5px;transition:.15s;background:none;border:none;
@@ -308,6 +308,8 @@ table.tbl tr.me td{background:rgba(255,204,64,.08)}
   display:flex;flex-direction:column;overflow:hidden}
 .hmc-head{display:flex;align-items:center;gap:8px;padding:12px 14px;background:var(--bg2);
   border-bottom:1px solid var(--line)}
+.hmc-hint{font-size:11px;color:var(--muted);text-align:center;padding:6px 10px;
+  background:rgba(255,204,64,.06);border-bottom:1px solid var(--line)}
 .hmc-title{font-weight:800;font-size:14.5px;flex:1}
 .hmc-ico{background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--muted);width:28px;
   height:28px;border-radius:8px;cursor:pointer;font-size:13px;line-height:1}
@@ -1225,3 +1227,124 @@ table.tbl tr.me td{background:rgba(255,204,64,.08)}
   }
 }
 
+
+/* --- RENKLİ PAKET (ekonomi + hero canlandırma) 2026-10-04 --- */
+/* Hero başlık vurgusu: statik gradyan korunur (animasyon background-clip:text
+   maskesini bozup metni okunmaz yapiyordu — 2026-10-04 canli testte geri alindi) */
+/* Hero aurora: renkli ışık lekeleri (duyarsız, dekoratif) */
+.home-hero::after{
+  content:'';
+  position:absolute;
+  inset:-40%;
+  background:
+    radial-gradient(circle at 20% 70%, rgba(255,94,156,.10) 0%, transparent 30%),
+    radial-gradient(circle at 75% 25%, rgba(64,196,255,.09) 0%, transparent 28%),
+    radial-gradient(circle at 55% 85%, rgba(140,230,120,.08) 0%, transparent 26%);
+  animation:hmaurora 13s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:1;
+}
+@keyframes hmaurora{
+  0%{transform:rotate(0deg) scale(1)}
+  100%{transform:rotate(9deg) scale(1.07)}
+}
+/* Stat kartları: her kart kendi vurgu renginde (yeşil/pembe/mavi/altın) */
+.stat-box:nth-child(4n+1) .stat-box-ico{background:rgba(140,230,120,.10);border-color:rgba(140,230,120,.26)}
+.stat-box:nth-child(4n+1):hover{border-color:#8ce678;box-shadow:0 8px 26px rgba(140,230,120,.13)}
+.stat-box:nth-child(4n+2) .stat-box-ico{background:rgba(255,94,156,.10);border-color:rgba(255,94,156,.26)}
+.stat-box:nth-child(4n+2):hover{border-color:#ff5e9c;box-shadow:0 8px 26px rgba(255,94,156,.13)}
+.stat-box:nth-child(4n+3) .stat-box-ico{background:rgba(64,196,255,.10);border-color:rgba(64,196,255,.26)}
+.stat-box:nth-child(4n+3):hover{border-color:#40c4ff;box-shadow:0 8px 26px rgba(64,196,255,.13)}
+.stat-box:nth-child(4n+4) .stat-box-ico{background:rgba(255,204,64,.10);border-color:rgba(255,204,64,.26)}
+.stat-box:nth-child(4n+4):hover{border-color:var(--cheese);box-shadow:0 8px 26px rgba(255,204,64,.13)}
+/* Ekonomi şeridi: gökkuşağı kenarlı renkli banner */
+.eco-banner{
+  position:relative;
+  border-radius:20px;
+  padding:26px 28px;
+  background:linear-gradient(135deg, rgba(43,33,80,.75) 0%, rgba(20,16,31,.92) 100%);
+  border:1px solid transparent;
+  background-clip:padding-box;
+  overflow:hidden;
+}
+.eco-banner::before{
+  content:'';
+  position:absolute;
+  inset:-2px;
+  border-radius:22px;
+  padding:2px;
+  background:linear-gradient(120deg, #ffcc40, #ff5e9c, #40c4ff, #8ce678, #ffcc40);
+  background-size:300% 100%;
+  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  animation:hmgradient 8s linear infinite;
+  pointer-events:none;
+}
+.eco-banner-head h2{
+  font-size:21px;
+  font-weight:900;
+  color:#fff;
+  margin-bottom:6px;
+}
+.eco-banner-head p{
+  color:#d5cbed;
+  font-size:14px;
+  margin-bottom:16px;
+  max-width:760px;
+}
+.eco-banner-rows{
+  display:grid;
+  gap:10px;
+}
+.eco-row{
+  padding:12px 16px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:600;
+  background:rgba(255,255,255,.04);
+  border-left:3px solid var(--cheese);
+  color:#efe9ff;
+  transition:.2s;
+}
+.eco-row:hover{background:rgba(255,255,255,.08);transform:translateX(4px)}
+.eco-row-wheel{border-left-color:#ff5e9c}
+.eco-row-quests{border-left-color:#40c4ff}
+.eco-row-weekly{border-left-color:#8ce678}
+/* Oyuncu profili: görev çubukları */
+.quest-panel{
+  display:grid;
+  gap:10px;
+}
+.quest-row{
+  display:grid;
+  grid-template-columns:minmax(180px,1fr) 2fr auto;
+  gap:14px;
+  align-items:center;
+  padding:10px 14px;
+  border-radius:12px;
+  background:rgba(255,255,255,.035);
+  border:1px solid var(--line);
+  font-size:13.5px;
+}
+.quest-row.done{border-color:rgba(140,230,120,.45);background:rgba(140,230,120,.07)}
+.quest-name{font-weight:700;color:#efe9ff}
+.quest-bar{
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.quest-fill{
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg, var(--cheese), var(--orange));
+}
+.quest-row.done .quest-fill{background:linear-gradient(90deg, #8ce678, #40c4ff)}
+.quest-count{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.quest-wheel{color:#ff9ec2;font-weight:700}
+.quest-weekly{color:#8ce678;font-weight:700}
+@media(max-width:700px){
+  .quest-row{grid-template-columns:1fr;gap:6px}
+  .eco-banner{padding:20px 18px}
+}
