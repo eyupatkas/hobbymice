@@ -1,6 +1,15 @@
 {
-  "updated": "2026-10-04",
+  "updated": "2026-10-05",
   "entries": [
+    {
+      "date": "2026-10-05",
+      "title": "📅 Artık Her Tarih Senin Dilinde",
+      "tag": "site",
+      "items": [
+        "🗓️ Blog, Güncellemeler, profil ve forum sayfalarındaki kesin tarihler de 4 dile bağlandı (örn. \"5 Ekim 2026\" → \"October 5, 2026\" → \"5 octobre 2026\")",
+        "🌐 Sitenin tarih sistemi artık baştan sona çok dilli — bir sonraki adım: sayfa metinlerinin tamamı"
+      ]
+    },
     {
       "date": "2026-10-04",
       "title": "🕒 \"2 gün önce\" Artık Senin Dilinde",
