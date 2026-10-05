@@ -75,7 +75,7 @@ export default async function OyuncuPage({ searchParams }) {
       <div className="pagehead">
         <h1>🐭 {acc.playerName}</h1>
         <p className="muted">
-          {regDate ? `Katılım: ${fmtDateTime(regDate)}` : ''} · Oyun süresi: {Math.round((acc.playedTime || 0) / 60)} dk
+          {regDate ? `Katılım: ${fmtDateTime(regDate, lang)}` : ''} · Oyun süresi: {Math.round((acc.playedTime || 0) / 60)} dk
         </p>
       </div>
 

@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { localeOf } from '../../lib/util';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,12 +29,13 @@ function loadUpdates() {
   }
 }
 
-function fmtDate(iso) {
+function fmtDate(iso, lang) {
   const d = new Date(iso + 'T12:00:00');
-  return isNaN(d) ? iso : d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+  return isNaN(d) ? iso : d.toLocaleDateString(localeOf(lang), { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-export default function UpdatesPage() {
+export default async function UpdatesPage() {
+  const lang = ((await cookies()).get('hm_lang')?.value || 'tr').toLowerCase();
   const entries = loadUpdates();
   return (
     <div style={{ maxWidth: 760, margin: '0 auto' }}>
@@ -60,7 +63,7 @@ export default function UpdatesPage() {
                 fontSize: 11.5, fontWeight: 700, padding: '3px 10px', borderRadius: 999,
                 background: tag.bg, color: tag.color,
               }}>{tag.label}</span>
-              <span className="muted small" style={{ marginLeft: 'auto' }}>📅 {fmtDate(e.date)}</span>
+              <span className="muted small" style={{ marginLeft: 'auto' }}>📅 {fmtDate(e.date, lang)}</span>
             </div>
             <ul style={{ margin: '12px 0 0', paddingLeft: 4, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
               {(e.items || []).map((item, j) => (

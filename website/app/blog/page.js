@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getDb } from '../../lib/db';
 import { getUser } from '../../lib/session';
 import { fmtDate, nf, excerpt, readingTime, toInt } from '../../lib/util';
+import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +16,7 @@ const PER_PAGE = 10;
 
 export default async function BlogPage({ searchParams }) {
   const sp = await searchParams;
+  const lang = ((await cookies()).get('hm_lang')?.value || 'tr').toLowerCase();
   const page = Math.max(1, toInt(sp.sayfa, 1));
   const d = getDb();
   const q = { status: 'published' };
@@ -46,7 +48,7 @@ export default async function BlogPage({ searchParams }) {
               <div className="cover">{hero.emoji || '🧀'}</div>
               <div className="bh-body">
                 <div className="meta">
-                  {fmtDate(hero.publishedAt)} · {hero.author || 'HobbyMice'}
+                  {fmtDate(hero.publishedAt, lang)} · {hero.author || 'HobbyMice'}
                   {hero.source === 'ai' && <span> · <span className="badge ai">AI</span></span>}
                   {' '}· ⏱ {readingTime(hero.content)} dk okuma
                 </div>
@@ -62,7 +64,7 @@ export default async function BlogPage({ searchParams }) {
                 <div className="postcard" key={String(p._id)}>
                   <h3><Link href={`/blog/${p.slug}`}>{p.emoji ? p.emoji + ' ' : ''}{p.title}</Link></h3>
                   <div className="meta">
-                    {fmtDate(p.publishedAt)} · {p.author || 'HobbyMice'}
+                    {fmtDate(p.publishedAt, lang)} · {p.author || 'HobbyMice'}
                     {p.source === 'ai' && <span> · <span className="badge ai">AI</span></span>}
                     {' '}· ⏱ {readingTime(p.content)} dk okuma · 👁 {nf(p.views)}
                   </div>

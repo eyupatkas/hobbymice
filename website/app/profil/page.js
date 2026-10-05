@@ -91,7 +91,7 @@ export default async function ProfilPage() {
       </div>
       <div className="panel tight">
         <p className="small muted">
-          📧 {acc.emailAddress || '—'} · Kayıt: {acc.regDate ? fmtDateTime(new Date(acc.regDate * 1000)) : '?'} · Oyun süresi: {Math.round((acc.playedTime || 0) / 60)} dk
+          📧 {acc.emailAddress || '—'} · Kayıt: {acc.regDate ? fmtDateTime(new Date(acc.regDate * 1000), lang) : '?'} · Oyun süresi: {Math.round((acc.playedTime || 0) / 60)} dk
         </p>
         <Link className="btn btn-ghost btn-sm" href="/siralama?tur=peynir">🏆 Sıralamada neredeyim?</Link>
       </div>

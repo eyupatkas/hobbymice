@@ -54,7 +54,7 @@ export default async function KonuPage({ params }) {
           {t.title}
         </h1>
         <div className="meta muted small" style={{ margin: '6px 0 14px' }}>
-          {t.author} · {fmtDateTime(t.createdAt)} · 👁 {nf(t.views)} · 💬 {nf(t.replies)}
+          {t.author} · {fmtDateTime(t.createdAt, lang)} · 👁 {nf(t.views)} · 💬 {nf(t.replies)}
         </div>
         <div className="article body" style={{ fontSize: 15 }}
           dangerouslySetInnerHTML={{ __html: liteMarkup(t.body) }} />

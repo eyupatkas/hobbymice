@@ -91,4 +91,4 @@ function toInt(v, d = 0) {
   return Number.isFinite(n) ? n : d;
 }
 
-module.exports = { SITE, esc, slugify, fmtDate, fmtDateTime, timeAgo, nf, liteMarkup, excerpt, readingTime, safePath, safeContainsRegex, toInt };
+module.exports = { SITE, esc, slugify, localeOf, fmtDate, fmtDateTime, timeAgo, nf, liteMarkup, excerpt, readingTime, safePath, safeContainsRegex, toInt };
