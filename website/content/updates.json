@@ -1,6 +1,15 @@
 {
-  "updated": "2026-10-05",
+  "updated": "2026-10-07",
   "entries": [
+    {
+      "date": "2026-10-07",
+      "title": "🎴 Oyuncu Kartları Artık 4 Dilde",
+      "tag": "site",
+      "items": [
+        "🌐 Oyuncu profili kartındaki tüm bilgiler artık seçtiğin dilde: istatistik etiketleri, günlük görev adları, çarkıfelek ve haftalık yarışma durumları",
+        "🔍 Var olmayan oyuncu aramalarında bile \"Oyuncu bulunamadı\" mesajı diline göre gösterilir"
+      ]
+    },
     {
       "date": "2026-10-05",
       "title": "📅 Artık Her Tarih Senin Dilinde",
