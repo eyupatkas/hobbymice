@@ -3,6 +3,15 @@
   "entries": [
     {
       "date": "2026-10-07",
+      "title": "🧱 Bozuk Bağlantı Paketlerine Karşı Ek Kalkan",
+      "tag": "güvenlik",
+      "items": [
+        "🛡️ Sunucu artık yarım/bozuk gelen bağlantı paketlerini en giriş kapısında süzüyor — hatalı istemci veya tarama denemeleri hata kaydı bile üretmeden sessizce reddediliyor",
+        "✅ Oyuncular için hiçbir değişiklik yok; sadece sunucu daha sakin ve daha dayanıklı"
+      ]
+    },
+    {
+      "date": "2026-10-07",
       "title": "🏠 \"Hesabım\" Sayfası da 4 Dilde",
       "tag": "site",
       "items": [
