@@ -25,8 +25,9 @@ Tamamlananlar "BİTTİ (tarih)" ile işaretlenir; yeni fikir/bug keşfedildikçe
 - [ÖZELLİK] /online, /saat komutları — **BİTTİ (2026-10-03)**.
 - [ÖZELLİK] /help (yetkiye göre filtre + dil desteği, log penceresi) ve /yetkililer (ad>rol, online durumu) — **BİTTİ (2026-10-03, oyun içi görünüm kullanıcı teyidi bekliyor)**.
 - [ÖZELLİK] Oyun analitiği veri hattı (server_stats, dakikalık) — **BİTTİ (2026-10-03)**; site admin analitik sayfasına bağlı.
-- [ÖZELLİK] Bootcamp / Racing / Defilante özel oda modları (harita kategorisi zaten DB'de mevcut, Room.selectMap filtresiyle).
+- [ÖZELLİK] Bootcamp / Racing / Defilante özel oda modları (harita kategorisi zaten DB'de mevcut, Room.selectMap filtresiyle). — **GÜNCELLEME (2026-10-08):** oda yönlendirme + kategori havuzları (racing=17, defilante=18, bootcamp=13/3) KODDA HAZIR ve oda kurulumu çalışıyor; AMA canlı Ruffle doğrulamasında **[BUG] bulundu**: `/room racing` ve `/room bootcamp` girişinde istemci "Incorrect version, try to reload the game." ile düşüyor. Kanıt: /tmp/hm-matchtest/room-racing.png + room-bootcamp.png; aynı anda transformice journal'da `Decoder.decode(Decoder.java:63) IndexOutOfBoundsException: Need 39, maximum is 38` (istemci çerçeve desync'i). Vanilla oda aynı akışta sorunsuz (match testi). Şüpheli: özel oda turunda gönderilen racing'e özgü paket (C_RoundsCount / kategori haritası yolu) ile 1.889 istemci uyumsuzluğu — sonraki tur: vanilla vs racing round byte akışını köprü üstünden yakala, farklı paketi bul.
 - [ÖZELLİK] Şaman rütbesi rozetleri: first sayısına göre oda içi etiket.
+- [NOT] "Powers eksik API'leri" işi DÜŞTÜ (2026-10-08): powers.lua eksik system.*/ui.*/tfm.exec.* fonksiyonlarını KENDİ içinde tanımlıyor (satır 1177-1240: tfm.exec.position=function(n), system.players=function(trdArg), system.start=function(n)…); modül çerçevesi gömülü, sunucu tarafı implementasyon gerekmiyor.
 - [BUG-ADAYI] Loglardaki tekrarlayan exception/stack izlerini bulup kökten düzelt.
 - [DENGESIZLIK] Vanilla harita rotasyonunda aynı haritanın art arda gelmesini engelle (son N harita geçmişi) — **BİTTİ (2026-10-03)**: ölü referans-guard düzeltildi, oda başına son 10 harita geçmişi (vanilla + kategori yolları).
 - [BUG] (0,19) işleyisiz paket seli: saniyede ~120k WARN + 918 CLOSE-WAIT — **BİTTİ (2026-10-03)**: 5 sn log throttle + 10sn/30 paket eşiğinde bağlantı kapatma (ClientHandler/Client).
@@ -64,6 +65,9 @@ Tamamlananlar "BİTTİ (tarih)" ile işaretlenir; yeni fikir/bug keşfedildikçe
 - [ALTYAPI] Watchdog genişletme: gunluk OYUN logu ozeti (ERROR sayimi), web uptime satiri, disk temizlik onerisi (journalctl vacuum onerisi otomatik).
 - [ALTYAPI] Sağlık kontrolü scripti: servisler kapalıysa restart edip log dosyasına yazan watchdog.
 - [ALTYAPI] Sunucu loglarında ERROR sayımını günlüğe yazan küçük istatistik.
+- [HATA-KÖK-NEDEN] Decoder.java satır 57 off-by-one: `readableBytes() < length` ama `length+1` bayt okunuyor — TCP segmenti tam paket sınırına denk gelince IndexOutOfBounds ("Need 19, maximum is 18") → CLOSE-WAIT zombi oturum + 10 sn'de bir "Unhandled packet" log spam'i (2026-10-03 (0,19) seli ve 2026-10-08 Modat tarayıcısı vakası aynı kök). Düzeltme: kontrol `length + 1` olmalı (tel biçimi: VLQ length + body + sondaki 01 baytı = length+1). Deploy.sh ister.
+- [SAĞLAMLAŞTIRMA] ClientHandler'a ölü-soket timeout'u: CLOSE-WAIT zombi Client'lar (hayalet misafir vakası 2026-10-07 + 2026-10-08) sunucu tarafı keepalive zaman aşımıyla temizlenmeli; restart'sız kendi kendine iyilesin.
+- [İZLEME] Watchdog'a güvenlik kontrolleri EKLENDİ (2026-10-08): fail2ban ban sayısı, nginx 10dk istek seli, oyun portu bağlanti/syn seli, zombi 'Unhandled packet' seli — OZET satırında bans/nx10dk/oyunest/unhandled10dk izleniyor.
 
 ## Tamamlananlar
 
