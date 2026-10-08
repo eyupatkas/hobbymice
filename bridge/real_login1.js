@@ -23,7 +23,7 @@ const { chromium } = require("/root/projects/transformice/bridge/node_modules/pl
 
   // sifre alani
   await page.mouse.click(280, 320); await page.waitForTimeout(600);
-  await page.keyboard.type("Eypakts45", { delay: 50 });
+  await page.keyboard.type(process.env.HM_TEST_PASS || "", { delay: 50 });
   await page.screenshot({ path: "/tmp/final/rl_3_pass.png" });
 
   console.log("--- WS olaylari ---");
