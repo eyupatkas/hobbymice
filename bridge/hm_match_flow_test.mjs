@@ -1,7 +1,14 @@
 // Uçtan uca maç akışı testi v2: konuk girişi → tutorial'dan çık → /room hmtest →
 // yürü/zıpla (sync paketleri) → ekran + journal kanıtı.
+// Günlük hobbymice-matchtest.timer ile koşar; ekran görüntüleri /tmp altında
+// (yalnız son koşulun ki tutulur — repo kirletmemek için).
 import { chromium } from "/root/projects/transformice/bridge/node_modules/playwright/index.mjs";
 import { execFileSync } from "node:child_process";
+import fs from "node:fs";
+
+const SHOT_DIR = "/tmp/hm-matchtest";
+fs.mkdirSync(SHOT_DIR, { recursive: true });
+for (const f of fs.readdirSync(SHOT_DIR)) fs.unlinkSync(SHOT_DIR + "/" + f);
 
 function gameLog(since) {
   return execFileSync(
@@ -32,7 +39,7 @@ const t0 = new Date(Date.now() - 30_000).toISOString().replace("T", " ").slice(0
   // Tutorial'dan çık (v1 ekranında buton ~(683,307))
   await page.mouse.click(683, 307);
   await page.waitForTimeout(8000);
-  await page.screenshot({ path: "/root/projects/transformice/bridge/match-v2-1-afterquit.png" });
+  await page.screenshot({ path: SHOT_DIR + "/1-afterquit.png" });
   console.log("1) tutorialdan çıkıldı");
 
   // Sahneye tıkla (SWF klavye odağı) + sohbet kutusuna tıkla
@@ -53,7 +60,7 @@ const t0 = new Date(Date.now() - 30_000).toISOString().replace("T", " ").slice(0
   await page.keyboard.up("ArrowRight");
   await page.keyboard.press("ArrowUp");
   await page.waitForTimeout(16000);
-  await page.screenshot({ path: "/root/projects/transformice/bridge/match-v2-2-room.png" });
+  await page.screenshot({ path: SHOT_DIR + "/2-room.png" });
   console.log("3) oda ekranı alındı");
 
   await browser.close();
