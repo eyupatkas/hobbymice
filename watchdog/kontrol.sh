@@ -119,6 +119,46 @@ if [ "$CUR_PLAYERS" != "-1" ] && [ "$BASE_PLAYERS" != "-1" ]; then
     fi
 fi
 
+# 5e) Guvenlik: fail2ban ban seviyesi (SSH brute-force dalgasi gostergesi)
+FB_SSHD=$(fail2ban-client status sshd 2>/dev/null | grep -oP 'Currently banned:\s+\K\d+' | head -1)
+if [ -n "$FB_SSHD" ] && [ "$FB_SSHD" -gt 300 ]; then
+    say "UYARI: fail2ban sshd ban sayisi $FB_SSHD (genis olcekli brute-force dalgasi)"
+    echo "- fail2ban sshd ayni anda $FB_SSHD IP banlamis (normal ~100): saldiri dalgasi olabilir, ban listesine ve auth loguna bak." >> "$PENDING_TMP"
+fi
+
+# 5f) Guvenlik: nginx istek seli (son 10 dk; normal aralik ~80-320)
+NX=$(awk -v cut="$(date -d '-10 min' '+%s')" '
+BEGIN { split("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec", mo, " "); for (i=1;i<=12;i++) M[mo[i]] = i }
+{
+    s = substr($4, 2, 20); split(s, a, "[:/ ]");
+    t = mktime(a[3]" "M[a[2]]" "a[1]" "a[4]" "a[5]" "a[6]);
+    if (t >= cut) c++
+}
+END { print c+0 }' /var/log/nginx/access.log)
+if [ "$NX" -gt 3000 ]; then
+    TOP_IP=$(tail -n 5000 /var/log/nginx/access.log | awk '{print $1}' | sort | uniq -c | sort -rn | head -3 | awk '{printf "%s(%s) ", $2, $1}')
+    say "UYARI: nginx son 10dk istek $NX — top IP: $TOP_IP"
+    echo "- nginx istek seli (10dk: $NX). En yogun kaynaklar: $TOP_IP. Hacker hedefliyse ufw/fail2ban ile engelle." >> "$PENDING_TMP"
+fi
+
+# 5g) Guvenlik: oyun portlarina baglanti seli (normalde 0-5 oyuncu)
+EST=$(ss -tn state established '( sport = :11801 ) or ( sport = :12801 ) or ( sport = :13801 ) or ( sport = :14801 )' 2>/dev/null | tail -n +2 | wc -l)
+SYN=$(ss -tn state syn-recv 2>/dev/null | tail -n +2 | wc -l)
+if [ "$EST" -gt 50 ] || [ "$SYN" -gt 100 ]; then
+    say "UYARI: oyun portu baglanti seli est=$EST syn=$SYN"
+    echo "- Oyun portlarinda baglanti seli (est=$EST syn=$SYN): kaynak IP icin 'ss -tn state established or syn-recv' ciktisina bak, gerekirse ufw deny ekle." >> "$PENDING_TMP"
+fi
+
+# 5h) Guvenlik: zombi oturum / bozuk paket surekli seli
+# (2026-10-08 vakasi: Modat tarayicisinin yarim paketi CLOSE-WAIT zombi birakti,
+#  her 10 sn'de 'Unhandled packet' logu — kok neden Decoder length+1 off-by-one)
+UNH=$(journalctl -u transformice --since '-10 min' --no-pager 2>/dev/null | grep -c 'Unhandled packet')
+EXC=$(journalctl -u transformice --since '-10 min' --no-pager 2>/dev/null | grep -c 'Error when receiving packet')
+if [ "$UNH" -gt 30 ] || [ "$EXC" -gt 10 ]; then
+    say "UYARI: zombi oturum/log seli — unhandled10dk=$UNH exc10dk=$EXC"
+    echo "- Oyun sunucusunda surekli 'Unhandled packet'/'packet error' seli (10dk: $UNH/$EXC): Decoder length+1 ve idle-sweeper onarimi 2026-10-08'te canlida — sel YENIDEN basladiysa yeni bir kaynak var; journalctl'ten kaynak IP'yi bul (uyarilar artik IP'li), gerekiyorsa restart." >> "$PENDING_TMP"
+fi
+
 # 6) Disk kullanimi
 USE=$(df --output=pcent / 2>/dev/null | tail -1 | tr -dc '0-9')
 if [ -n "$USE" ] && [ "$USE" -gt 90 ]; then
@@ -127,7 +167,7 @@ if [ -n "$USE" ] && [ "$USE" -gt 90 ]; then
 fi
 
 # 7) Ozet satiri
-say "OZET: flood10dk=$FLOOD closewait=$CW disk=%${USE:-?} bekleyenis=$( [ -s "$PENDING_TMP" ] && echo VAR || echo yok )"
+say "OZET: flood10dk=$FLOOD closewait=$CW disk=%${USE:-?} bans=${FB_SSHD:-?} nx10dk=${NX:-?} oyunest=${EST:-?} unhandled10dk=${UNH:-?} bekleyenis=$( [ -s "$PENDING_TMP" ] && echo VAR || echo yok )"
 
 # 8) AI mudalesi gerektiren is varsa BEKLEYEN-IS.md'ye yaz, yoksa eski notu temizle
 if [ -s "$PENDING_TMP" ]; then
