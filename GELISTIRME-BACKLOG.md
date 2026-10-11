@@ -35,7 +35,7 @@ Tamamlananlar "BİTTİ (tarih)" ile işaretlenir; yeni fikir/bug keşfedildikçe
 - [GÜVENLİK] Şifreler düz token olarak saklanıyordu (pass-the-hash) — **BİTTİ (2026-10-03)**: PBKDF2-HMAC-SHA256 (120k) sarmalama, oyun+site aynı format, ilk girişte şeffaf geçiş.
 - [ALTYAPI] log4j rootLogger DEBUG kalmış (Mongo debug satırları journal'a yazıyor) → INFO'ya çekilip yeniden derlenmeli (bkz. log4j.properties + deploy.sh).
 - [İZLEME] (0,19) seli tekrarlarsa kaynak IP'yi tespit et (journal + ss); gerekirse köprüyü bozmayan geçici IP throttle ekle.
-- [ALTYAPI] İç repo commit'leri Mimosa L3 kapısına takılıyor: upstream `Transformice/tools/*.py` (updateSwf, packetMan, updateVanillaMaps — çevrimdışı araçlar) 6 yüksek bulgu. tools/ iç repo dışına taşınmalı (veya scan kapsamı dışı bırakılmalı), sonra Room.java harita tekrar önleyici değişikliği commit edilmeli (deployed 09:04, commit bekliyor).
+- [ALTYAPI] İç repo Mimosa L3 kapısı AŞILDI (2026-10-08): upstream-tools ağaçtan çıkarılınca iç repo commit'i geçti (Decoder turu 4e1b171); dış repo docs/watchdog commit'i de geçti (60a8628). KALAN: dış repo WEBSITE commit'i ön-existing bulgulara takılıyor (Chrome.jsx:54/111 fetch('/api/logout') — tarayıcı-içi relatif çağrı, SSRF değil; blogbot.js sunucu-içi bot, saldırgan girdisi yok — false-positive ağırlıklı). Site değişiklikleri canlıda ama commit'siz: ya Mimosa'ya website kapsamı ayarlanmalı ya bulgular elle belgelenmeli (yanlış-pozitif savunması), sonra yeniden commit.
 - [ÖZELLİK] /top oyun içi sıralama komutu — **BİTTİ (2026-10-03)**: /top cheese|first, madalyalı top 5, findBest10PlayersByCriteria yeniden kullanıldı.
 - [ÖZELLİK] Ana sayfa canlı "şu an oyunda" sayacı + tüm istatistikler gerçek — **BİTTİ (2026-10-03)**: ServerStats server_stats/account aggregate/mapeditor sayısından besleniyor.
 - [ALTYAPI] MongoDB günlük yedekleme — **BİTTİ (2026-10-03)**: mongodump (tools 100.11.0) + hobbymice-backup.timer 04:00 + 7 gün saklama + dryRun restore testi.
@@ -79,7 +79,7 @@ Tamamlananlar "BİTTİ (tarih)" ile işaretlenir; yeni fikir/bug keşfedildikçe
 1. [ÖZELLİK] Etkinlik hafta sonları — **BİTTİ (2026-10-03)**: otomatik rotasyon (Halloween/Fishing/Ninja/Hugging) + duyuru + /event. Kalan: NPC/collectible efektlerinin açılması (adventure config bağımlılığı çözülünce).
 2. [ÖZELLİK] Şaman rozetleri — **BİTTİ (2026-10-03)**: eşik bazlı açılım (10/50 first → #1/#2, 500/2000 kurtarma → #3/#4) + otomatik takma + tebrik; görsel teyit kullanıcıda.
 3. [ÖZELLİK] Oyun içi ilk-kez-giriş rehberi iyileştirmesi (tutorial sonrası komut ipuçları)
-4. [KOZMETİK] /top guest filtresi — BİTTİ; sıradaki: findBest10PlayersByCriteria'ya "min oyun süresi" şartı
+4. [KOZMETİK] /top guest filtresi — **BİTTİ**; "min oyun süresi" şartı da **BİTTİ (2026-10-11)**: findBest10PlayersByCriteria her iki yoluna playedTime ≥ 600 sn (10 dk) filtresi (iç repo `6811663`)
 
 ### Web sitesi
 5. [SEO] Blog botuna FAQPage schema + iç bağlama — **BİTTİ (2026-10-03)**: bot 3'lü SSS üretir, yazı sayfasında açılır bölüm + FAQPage JSON-LD; etiket eşleşmezse son 3 yazı fallback.
