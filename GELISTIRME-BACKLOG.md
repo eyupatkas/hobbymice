@@ -40,7 +40,9 @@ Tamamlananlar "BİTTİ (tarih)" ile işaretlenir; yeni fikir/bug keşfedildikçe
 - [ÖZELLİK] Ana sayfa canlı "şu an oyunda" sayacı + tüm istatistikler gerçek — **BİTTİ (2026-10-03)**: ServerStats server_stats/account aggregate/mapeditor sayısından besleniyor.
 - [ALTYAPI] MongoDB günlük yedekleme — **BİTTİ (2026-10-03)**: mongodump (tools 100.11.0) + hobbymice-backup.timer 04:00 + 7 gün saklama + dryRun restore testi.
 - [KOZMETİK] /top listesinde guest (*Souris_*) hesapları filtrele; findBest10PlayersByCriteria'ya "sadece kayıtlı" seçeneği eklenebilir.
-- [ÖZELLİK] Oyun içi harita oylama/atlama: sunucu tarafı zaten MapVote popup paketi içeriyor; "skipsiz sıkıcı harita" şikâyetleri için /skip komutu değerlendirilebilir.
+- [ÖZELLİK] Oyun içi harita oylama/atlama — **BİTTİ (2026-10-12, projector E2E ile kanıtlandı)**: /atla (alias /haritaatla; /skip müzik komutuna ait) — Room.addSkipVote çoğunluk oylaması (>½, tek kişilik odada anında), raunt başına 1 oy, kabile/modül odalarında kapalı. Kayıtlı hesaplar için; misafirler istemci kısıtıyla komut gönderemiyor (bkz. istemci komut tablosu maddesi).
+- [ÖZELLİK] İstemci komut tablosuna özel komutların eklenmesi (client-build ameliyatı): 1.889 istemcisinin kendi tablosu (*pw/clavier/bug/room/salonauto/help/sp) dışındaki komutları misafirler HİÇ gönderemiyor (2026-10-12 keşfi; kayıtlı hesaplarda sorun yok). rabcdasm ile tabloya cark/gorev/haftalik/atla/online/saat vb. eklenirse misafirler de komut kullanabilir; 3 SWF varyantının yeniden üretilmesi + dağıtım gerekir.
+- [BUG] S_VerifyAccountByNickAndEmail (şifremi unuttum) giriş-öncesi NPE — **BİTTİ (2026-10-12)**: null-guard; (28,40) login ekranından geldiğinde account null olabiliyordu.
 
 ## Web sitesi (website/, Next.js)
 
