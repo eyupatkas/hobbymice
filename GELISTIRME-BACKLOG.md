@@ -8,6 +8,7 @@ Tamamlananlar "BİTTİ (tarih)" ile işaretlenir; yeni fikir/bug keşfedildikçe
 ## Güvenlik
 
 - [GÜVENLİK] Login deneme sınırı bağlantı-başına (100/connection, reconnect ile sıfırlanıyor) → hesap-başına ek deneme gecikmesi/backoff eklenebilir (127.0.0.1 köprü kullanıcılarını etkilemeyecek şekilde).
+- [MODERASYON] Küfür/hakaret filtresi — **KISMEN BİTTİ (2026-10-12)**: bad_words.json dolduruldu (boştu!) + S_RegisterAccount rumuz kontrolü eklendi (iç repo `b9aa76a`). KALAN (admin kararı): hakaret içeren MEVCUT hesabın ismi değiştirilmeli/askıya alınmalı (W41 şampiyonu olduğu için ödül+künye de geri alınabilir) — oyun içi isim değişikliği/ceza aracı henüz yok, DB dokunuşu admin'e ait.
 - [GÜVENLİK] Admin hesabı + staff 2FA — **BİTTİ (2026-10-03)**: SMTP kuruldu (mice@in3dex.com, localhost:587+STARTTLS), enable_staff_2FA_verification=true; admin e-postası info@in3dex.com'a kod düşer. İsteğe bağlı: Eyup'un e-postası oyun içinden gerçek kişisel adrese değiştirilebilir.
 - [GÜVENLİK-BİLGİ] Şifreler artık PBKDF2 (BİTTİ 2026-10-03); eski hesaplar ilk girişte yükselir.
 - [İYİLEŞTİRME] Doğrulama kodlarına geçerlilik süresi — **BİTTİ (2026-10-03)**: Client.isCodeExpired(), tüm kod/2FA üretim-doğrulama noktalarına 10 dk geçerlilik.
