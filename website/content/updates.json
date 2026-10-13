@@ -1,6 +1,15 @@
 {
-  "updated": "2026-10-12",
+  "updated": "2026-10-13",
   "entries": [
+    {
+      "date": "2026-10-13",
+      "title": "🎓 Yeni Fareler İçin Komut İpuçları",
+      "tag": "oyun",
+      "items": [
+        "🎓 Tutorial sırasında yeni oyunculara sırayla faydalı komut ipuçları gösteriliyor: /help, /event, /top, /cark, /gorev, /atla ve /haftalik",
+        "🌐 İpuçları 4 dilde (Türkçe, English, Français, Español) — deneyimli oyunculara gösterilmez, gürültü yok"
+      ]
+    },
     {
       "date": "2026-10-12",
       "title": "🗳️ Sıkıcı Haritayı Oylayarak Atla: /atla Komutu",
