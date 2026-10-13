@@ -1,6 +1,27 @@
 {
-  "updated": "2026-10-07",
+  "updated": "2026-10-12",
   "entries": [
+    {
+      "date": "2026-10-12",
+      "title": "🗳️ Sıkıcı Haritayı Oylayarak Atla: /atla Komutu",
+      "tag": "oyun",
+      "items": [
+        "🗳️ Odada /atla (veya /haritaatla) yazarak bulunduğun haritanın atlanması için oy ver — odadaki oyuncuların yarısından fazlası aynı fikirdeyse harita anında değişir",
+        "⏭️ Tek kişilik odada oylama beklemeden anında atlama; oylar her rauntta sıfırlanır, aynı rauntta bir kez oy verebilirsin",
+        "🏠 Kabile evlerinde ve modül (#) odalarında çalışmaz; şifremi unuttum ekranındaki bir hata da düzeltildi",
+        "👤 Sohbet komutları hesaplı oyunculara açık — misafir hesaplar istemci kısıtı nedeniyle komut kullanamıyor"
+      ]
+    },
+    {
+      "date": "2026-10-08",
+      "title": "🏁 Yarış Odaları Onarıldı: Racing, Bootcamp ve Defilante Açıldı!",
+      "tag": "oyun",
+      "items": [
+        "🏁 /room racing, /room bootcamp ve /room defilante odalarına girince oyunun \"Incorrect version\" hatasıyla düşmesine yol açan bağlantı hatası kökten düzeltildi — üç mod da şimdi sorunsuz açılıyor ve rauntlar akıyor",
+        "🧀 Hatanın kökünde bulunan paket sınırı hatası aynı zamanda arka plandaki rastgele bağlantı kopmalarının da sebebiydi; tüm odalar genel olarak daha sağlam",
+        "💤 Yanıt vermeyen (hayalet fare) bağlantılar artık sunucu tarafından kendi kendine temizleniyor — restart gerekmiyor"
+      ]
+    },
     {
       "date": "2026-10-07",
       "title": "🧱 Bozuk Bağlantı Paketlerine Karşı Ek Kalkan",

@@ -44,6 +44,11 @@ export default async function SiralamaPage({ searchParams }) {
   if (podium.length === 2) podiumCards.push([podium[1], 1]);
   if (podium.length === 3) podiumCards.push([podium[2], 2]);
 
+  // Haftalık peynir yarışmasının dağıtılmış son sonuçları (oyunda /haftalik).
+  const champions = await d.collection('weekly_winners')
+    .find({}).sort({ week: -1 }).limit(1).next();
+  const championPrizes = ['🍓3 + 🧀300 + 👑 unvan', '🍓2 + 🧀200', '🍓1 + 🧀100'];
+
   return (
     <>
       <div className="pagehead">
@@ -56,6 +61,27 @@ export default async function SiralamaPage({ searchParams }) {
         ))}
       </div>
       <div className="panel tight lb-desc">{def.emoji} <b>{def.label} nedir?</b> {def.desc}</div>
+      {champions && Array.isArray(champions.winners) && champions.winners.length > 0 && (
+        <div className="panel tight">
+          <h2 style={{ marginTop: 0 }}>🏅 Haftanın Şampiyonları <span style={{ fontWeight: 400, opacity: 0.7 }}>({champions.week})</span></h2>
+          <p style={{ marginTop: 0, opacity: 0.85 }}>Her pazartesi haftanın en çok peynir toplayan 3 faresi ödüllendirilir — oyunda <b>/haftalik</b> ile puanını gör.</p>
+          <table className="tbl">
+            <thead>
+              <tr><th>Sıra</th><th>Oyuncu</th><th className="num">Haftalık Peynir</th><th>Ödül</th></tr>
+            </thead>
+            <tbody>
+              {champions.winners.slice().sort((a, b) => (a.rank || 9) - (b.rank || 9)).map((w, i) => (
+                <tr key={`${w.name}-${i}`}>
+                  <td style={{ width: 52 }}><span className={`lb-rank r${w.rank || i + 1}`}>{medals[(w.rank || i + 1) - 1] || w.rank}</span></td>
+                  <td><b>{w.name}</b>{w.rank === 1 ? ' 👑' : null}</td>
+                  <td className="num">{nf(w.score)}</td>
+                  <td>{championPrizes[(w.rank || i + 1) - 1] || '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       {podium.length > 0 && (
         <div className="lb-podium">
           {podiumCards.map(([p, place], idx) => (
