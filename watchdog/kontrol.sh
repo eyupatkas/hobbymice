@@ -166,8 +166,12 @@ if [ -n "$USE" ] && [ "$USE" -gt 90 ]; then
     echo "- Kok disk %$USE dolu — temizlik gerekli (journalctl --vacuum-size=500M, /root/backups eski yedekler)." >> "$PENDING_TMP"
 fi
 
+# 6b) Oyun ERROR sayimi (son 24 saat journal; trend gostergesi — ciktiyi
+# degiskene almadan dogrudan sayar, buyuk journal'da da ucuzdur)
+ERR24S=$(journalctl -u transformice --since '-24 hours' --no-pager 2>/dev/null | grep -c -i -E 'exception|error')
+
 # 7) Ozet satiri
-say "OZET: flood10dk=$FLOOD closewait=$CW disk=%${USE:-?} bans=${FB_SSHD:-?} nx10dk=${NX:-?} oyunest=${EST:-?} unhandled10dk=${UNH:-?} bekleyenis=$( [ -s "$PENDING_TMP" ] && echo VAR || echo yok )"
+say "OZET: flood10dk=$FLOOD closewait=$CW disk=%${USE:-?} bans=${FB_SSHD:-?} nx10dk=${NX:-?} oyunest=${EST:-?} unhandled10dk=${UNH:-?} err24s=${ERR24S:-0} bekleyenis=$( [ -s "$PENDING_TMP" ] && echo VAR || echo yok )"
 
 # 8) AI mudalesi gerektiren is varsa BEKLEYEN-IS.md'ye yaz, yoksa eski notu temizle
 if [ -s "$PENDING_TMP" ]; then

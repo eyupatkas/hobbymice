@@ -7,7 +7,7 @@ export PATH=/opt/rabcdasm:$PATH
 cd /root/projects/transformice/client-build
 
 python3 << 'PYEOF'
-import json, os, shutil, subprocess
+import json, os, re, shutil, subprocess
 
 BUILD = "/root/projects/transformice/client-build"
 wd = os.path.join(BUILD, "work")
@@ -40,6 +40,66 @@ for root, dirs, files in os.walk(d0):
             open(p, "w", encoding="utf-8").write(t)
             n += 1
 print("yamalanan dosya:", n)
+
+# --- Misafir komut tablosu ameliyati (2026-10-15) ---
+# 1.889 istemcisinin ana sinifindaki (buyuk komut dagiticisi) regDict tablosu,
+# istemcinin sunucuya KOMUT kanalindan (6,26 S_Command) gonderdigi komutlari
+# belirler (mevcut: resettotem/cj/zombie/mort/mulodrome/event/ping/skip).
+# Tabloda olmayan "/komut" metinleri sohbet yoluna sarkar ve misafirlerde
+# sunucuya ulasmaz. HobbyMice sunucu komutlarini tabloya ekleyerek misafirlerin
+# de bu komutlari gonderebilmesi saglaniyor.
+GUEST_CMDS = ["cark", "gorev", "haftalik", "atla", "haritaatla", "online", "saat", "top", "basarim"]
+MAIN_QNAME = 'QName(PackageNamespace(""), "\\x06\\x04\\x01\\x03\\x03\\x05\\x05\\x06\\x06\\x05\\x08\\x08")'
+REGDICT_PROP = "\\x07\\x05\\x02\\x05\\x07\\x05\\x03\\x07\\x04\\x05"
+FLAGS_PROP = "\\x01\\x03\\x05\\x02\\x03\\x01\\x04\\x07\\x05\\x06\\x04\\x02"
+CREATE_ANCHOR = 'setproperty         QName(PackageNamespace(""), "' + REGDICT_PROP + '")'
+rd_patched = 0
+for root, dirs, files in os.walk(d0):
+    if rd_patched:
+        break
+    for fn in files:
+        if not fn.endswith(".asasm"):
+            continue
+        p = os.path.join(root, fn)
+        t = open(p, encoding="utf-8", errors="ignore").read()
+        cpos = t.find(CREATE_ANCHOR)
+        if cpos < 0:
+            continue
+        # Yapisal dogrulama: hemen oncesi Dictionary yaratilisi olmali
+        before = t[max(0, cpos - 220):cpos]
+        if 'findpropstrict      QName(PackageNamespace("flash.utils"), "Dictionary")' not in before:
+            continue
+        eol = t.index("\n", cpos) + 1
+        # Sablon: yaratilisi takip eden ilk regDict girdisi (getlex Main ... setproperty MultinameL)
+        e1 = t.find("getlex              " + MAIN_QNAME, eol)
+        sp = t.find("setproperty         MultinameL(", e1)
+        eend = t.index("])", sp) + 2
+        lines = t[e1:eend].split("\n")
+        ok = (len(lines) == 7
+              and REGDICT_PROP in lines[1] and "getproperty" in lines[1]
+              and "getlex" in lines[2]
+              and "getproperty" in lines[3]
+              and FLAGS_PROP in lines[5] and "getproperty" in lines[5]
+              and "setproperty" in lines[6])
+        if not ok:
+            continue
+        m = re.search(r'( *)pushstring( +)"', t)
+        if not m:
+            continue
+        pushline = m.group(1) + "pushstring" + m.group(2)
+        def make_entry(name):
+            ls = list(lines)
+            ls[2] = pushline + '"' + name + '"'  # getlex SABIT-SINIFI -> pushstring "komut"
+            del ls[3]                             # getproperty KEY satiri kaldirildi
+            return "\n".join(ls)
+        block = "\n\n".join(make_entry(c) for c in GUEST_CMDS)
+        t = t[:eol] + "\n\n" + block + t[eol:]
+        open(p, "w", encoding="utf-8").write(t)
+        rd_patched = 1
+        print("regDict yamasi:", os.path.basename(p), "->", ",".join(GUEST_CMDS))
+        break
+if not rd_patched:
+    raise SystemExit("regDict yamasi: hedef dosya bulunamadi (anchor eslesmedi)")
 
 VARIANTS = [("sunucu", "46.224.194.227"), ("tarayici", "hobbymice.com.tr"), ("localhost", None)]
 SITE = "/var/www/hobbymice"
@@ -82,6 +142,11 @@ for name, target in VARIANTS:
     # icinde bayt degistirmek zlib akisini bozar (Ruffle+projector test edildi).
 
     print(name, "OK", os.path.getsize(out))
+
+DRY_RUN = os.environ.get("DRY_RUN") == "1"
+if DRY_RUN:
+    print("DRY_RUN: 3 varyant uretildi, dagitim atlandi")
+    raise SystemExit(0)
 
 import zipfile, hashlib
 LAUNCHER = "/root/projects/transformice/launcher"

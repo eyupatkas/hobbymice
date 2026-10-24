@@ -25,7 +25,12 @@ electron-launcher/dist/
 
 # derived binary
 158.swf.uncompressed
-Transformice/
+Transformice/target/
+Transformice/*.swf
+Transformice/*.swf.uncompressed
+Transformice/server.log
+Transformice/config/GeoIP.dat
+Transformice/config/properties.json.bak*
 
 # ZCode lokal durumu (config + memory — tamami yerel)
 .zcode/

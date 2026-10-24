@@ -1,6 +1,26 @@
 {
-  "updated": "2026-10-13",
+  "updated": "2026-10-15",
   "entries": [
+    {
+      "date": "2026-10-15",
+      "title": "🏆 Başarım Sistemi + Misafirler Artık Komut Kullanabiliyor",
+      "tag": "oyun",
+      "items": [
+        "🏆 /basarim komutu eklendi: peynir, birincilik, kurtarma, bootcamp, giriş serisi, oyun süresi ve şaman seviyesi başarımları — eşikleri geçince renkli kutlama bildirimi ve peynir ödülü otomatik geliyor",
+        "📈 /basarim panelinde tamamladığın başarımlar ✓ ile, sıradaki eşiklere kalan ilerlemen ise ilerleme çubuğuyla görünüyor",
+        "🎮 Misafir (hesapsız) oyuncular da artık /cark, /gorev, /haftalik, /atla, /online, /saat, /top gibi komutları kullanabiliyor — hesap açmanın tadını gör, ücretsiz kayıt 1 dakika"
+      ]
+    },
+    {
+      "date": "2026-10-15",
+      "title": "📝 Kayıt Rehberi: Rumuz ve Şifrenizi Önceden Test Edin",
+      "tag": "site",
+      "items": [
+        "📝 Giriş sayfasına Hesap Oluşturma Rehberi eklendi: oyunda Create Account'a basmadan önce rumuzunuzun kurallara uygun olup olmadığını ve şifrenizin gücünü (Zayıf/Orta/Güçlü) anında görebilirsiniz",
+        "🔒 Şifre gücü ölçer tamamen tarayıcınızda çalışır — yazdığınız hiçbir şey sunucuya gönderilmez; kaba söz içeren rumuzlar ise oyunda sunucu tarafından yine de reddedilir",
+        "🌐 Giriş sayfasının tamamı 4 dilde (Türkçe, English, Français, Español); \"Hesabım\" sayfasının sekme başlığı da artık seçtiğin dile göre gösteriliyor"
+      ]
+    },
     {
       "date": "2026-10-13",
       "title": "🎓 Yeni Fareler İçin Komut İpuçları",

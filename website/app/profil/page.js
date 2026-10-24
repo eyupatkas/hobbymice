@@ -8,7 +8,11 @@ import { fmtDateTime, nf, timeAgo } from '../../lib/util';
 import { t } from '../../lib/i18n';
 
 export const dynamic = 'force-dynamic';
-export const metadata = { title: 'Hesabım — HobbyMice', robots: { index: false, follow: false } };
+
+export async function generateMetadata() {
+  const lang = ((await cookies()).get('hm_lang')?.value || 'tr').toLowerCase();
+  return { title: t(lang, 'prof.metaTitle'), robots: { index: false, follow: false } };
+}
 
 export default async function ProfilPage() {
   const lang = ((await cookies()).get('hm_lang')?.value || 'tr').toLowerCase();
